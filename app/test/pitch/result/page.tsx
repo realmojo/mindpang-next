@@ -108,7 +108,7 @@ export default function PitchResultPage() {
   if (isLoading) {
     return (
       <Layout>
-        <div className="flex items-center justify-center min-h-screen">
+        <div className="flex items-center justify-center">
           <div className="text-center">
             <p className="text-gray-400">결과를 불러오는 중...</p>
           </div>
@@ -187,7 +187,9 @@ export default function PitchResultPage() {
                       <div className="stat-number text-3xl font-bold text-green-500">
                         {correct}
                       </div>
-                      <div className="stat-label text-sm text-gray-400">정답</div>
+                      <div className="stat-label text-sm text-gray-400">
+                        정답
+                      </div>
                     </CardContent>
                   </Card>
                   <Card className="stat-card bg-red-500/10 rounded-xl p-4 text-center border-red-500/30">
@@ -198,7 +200,9 @@ export default function PitchResultPage() {
                       <div className="stat-number text-3xl font-bold text-red-500">
                         {wrong}
                       </div>
-                      <div className="stat-label text-sm text-gray-400">오답</div>
+                      <div className="stat-label text-sm text-gray-400">
+                        오답
+                      </div>
                     </CardContent>
                   </Card>
                 </div>
@@ -236,10 +240,18 @@ export default function PitchResultPage() {
                       <table className="table w-full">
                         <thead>
                           <tr className="border-b border-white/10">
-                            <th className="text-center p-4 text-gray-300">문제</th>
-                            <th className="text-center p-4 text-gray-300">재생된 음</th>
-                            <th className="text-center p-4 text-gray-300">선택한 음</th>
-                            <th className="text-center p-4 text-gray-300">결과</th>
+                            <th className="text-center p-4 text-gray-300">
+                              문제
+                            </th>
+                            <th className="text-center p-4 text-gray-300">
+                              재생된 음
+                            </th>
+                            <th className="text-center p-4 text-gray-300">
+                              선택한 음
+                            </th>
+                            <th className="text-center p-4 text-gray-300">
+                              결과
+                            </th>
                           </tr>
                         </thead>
                         <tbody>
@@ -247,14 +259,20 @@ export default function PitchResultPage() {
                             <tr
                               key={index}
                               className={`border-b border-white/5 ${
-                                answer.isCorrect ? "text-green-400" : "text-red-400"
+                                answer.isCorrect
+                                  ? "text-green-400"
+                                  : "text-red-400"
                               }`}
                             >
                               <td className="text-center p-4 font-bold">
                                 {answer.question}
                               </td>
-                              <td className="text-center p-4">{answer.correct}</td>
-                              <td className="text-center p-4">{answer.selected}</td>
+                              <td className="text-center p-4">
+                                {answer.correct}
+                              </td>
+                              <td className="text-center p-4">
+                                {answer.selected}
+                              </td>
                               <td className="text-center p-4">
                                 {answer.isCorrect ? (
                                   <span className="font-bold">✓ 정답</span>
@@ -422,4 +440,3 @@ export default function PitchResultPage() {
     </Layout>
   );
 }
-

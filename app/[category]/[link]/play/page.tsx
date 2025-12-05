@@ -169,7 +169,7 @@ export default function PlayPage() {
   if (!item) {
     return (
       <Layout>
-        <div className="flex items-center justify-center min-h-screen">
+        <div className="flex items-center justify-center">
           <div className="text-center">
             <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4 text-luxury-gold" />
             <p className="text-gray-400">테스트를 불러오는 중...</p>
@@ -272,4 +272,3 @@ export default function PlayPage() {
     </Layout>
   );
 }
-

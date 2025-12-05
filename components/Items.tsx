@@ -37,7 +37,7 @@ export default function Items({ items }: ItemsProps) {
             <p className="text-sm text-gray-400 leading-relaxed line-clamp-2">
               {item.description}
             </p>
-            <div className="mt-3 flex items-center text-xs text-luxury-gold/70 font-medium uppercase tracking-wider">
+            <div className="mt-3 flex items-center text-xs text-luxury-gold font-medium uppercase tracking-wider">
               <span className="mr-2">Play Now</span>
               <svg
                 className="w-3 h-3 transform group-hover:translate-x-1 transition-transform"
@@ -59,4 +59,3 @@ export default function Items({ items }: ItemsProps) {
     </>
   );
 }
-

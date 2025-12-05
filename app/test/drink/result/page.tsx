@@ -65,7 +65,7 @@ export default function DrinkResultPage() {
   if (isLoading) {
     return (
       <Layout>
-        <div className="flex items-center justify-center min-h-screen">
+        <div className="flex items-center justify-center">
           <div className="text-center">
             <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4 text-luxury-gold" />
             <p className="text-gray-400">결과를 불러오는 중...</p>
@@ -78,7 +78,7 @@ export default function DrinkResultPage() {
   if (!result) {
     return (
       <Layout>
-        <div className="flex items-center justify-center min-h-screen">
+        <div className="flex items-center justify-center">
           <Card className="w-full max-w-2xl bg-[#1E1E1E]/90 border-white/10">
             <CardContent className="p-12 text-center">
               <p className="text-gray-400">결과를 찾을 수 없습니다.</p>

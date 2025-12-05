@@ -42,7 +42,7 @@ export default function SpeedCompletePage() {
   if (isLoading) {
     return (
       <Layout>
-        <div className="flex items-center justify-center min-h-screen">
+        <div className="flex items-center justify-center">
           <div className="text-center">
             <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4 text-luxury-gold" />
             <p className="text-gray-400">결과를 계산 중입니다...</p>
@@ -86,9 +86,7 @@ export default function SpeedCompletePage() {
                 <p className="text-5xl font-bold text-green-400 mb-6">
                   {speed} ms
                 </p>
-                <p className="text-lg text-gray-400">
-                  입니다.
-                </p>
+                <p className="text-lg text-gray-400">입니다.</p>
               </CardContent>
             </Card>
 
@@ -144,4 +142,3 @@ export default function SpeedCompletePage() {
     </Layout>
   );
 }
-

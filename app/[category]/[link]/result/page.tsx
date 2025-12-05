@@ -87,11 +87,14 @@ export default function ResultPage() {
     fetchRecently();
   }, [router]);
 
-  if (!item || !resultItem) {
+  if (isLoading || !item || !resultItem) {
     return (
       <Layout>
-        <div className="site-layout px-2">
-          <div className="text-center p-10">Loading...</div>
+        <div className="flex items-center justify-center">
+          <div className="text-center">
+            <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4 text-luxury-gold" />
+            <p className="text-gray-400">결과를 불러오는 중...</p>
+          </div>
         </div>
       </Layout>
     );
@@ -99,40 +102,121 @@ export default function ResultPage() {
 
   return (
     <Layout>
-      <main className="test-layout">
-        <div>
-          <h1 className="pt-4 pb-4 text-2xl font-bold text-center result-title">
-            결과분석
+      <Script
+        async
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1963334904140891"
+        crossOrigin="anonymous"
+        strategy="afterInteractive"
+      />
+      <main className="test-layout flex justify-center flex-col">
+        <div className="w-full max-w-2xl mx-auto p-4 pt-4">
+          <h1 className="text-center text-3xl mb-6 font-bold text-gray-100">
+            결과 분석
           </h1>
+
+          {/* Result Image */}
           {resultItem.url && (
-            <img
-              className="test-play-img"
-              src={resultItem.url}
-              alt="logo"
-              loading="lazy"
-            />
+            <Card className="mb-6 bg-[#1E1E1E]/90 border-white/10">
+              <CardContent className="p-0">
+                <Image
+                  src={resultItem.url}
+                  alt={item.title || "결과 이미지"}
+                  width={800}
+                  height={400}
+                  className="w-full h-auto rounded-lg"
+                  loading="lazy"
+                />
+              </CardContent>
+            </Card>
           )}
-          <div id="result-container">
-            {item.type === "answer" && (
-              <div className="pt-4 text-2xl result-title">
-                테스트 점수
-                <span className="text-blue-600 font-bold mr-2">
-                  {" "}
-                  {total} 점{" "}
-                </span>
-                ({totalCount} / {contentTotalCount})
+
+          {/* Score Card */}
+          {item.type === "answer" && (
+            <Card className="mb-6 bg-[#1E1E1E]/80 border-white/10">
+              <CardHeader>
+                <div className="flex items-center gap-2">
+                  <Sparkles className="w-5 h-5 text-luxury-gold" />
+                  <CardTitle className="text-xl font-serif text-luxury-gold">
+                    테스트 점수
+                  </CardTitle>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="text-center">
+                  <div className="text-5xl font-bold text-luxury-gold mb-2">
+                    {total}
+                  </div>
+                  <div className="text-xl text-gray-400">
+                    점 ({totalCount} / {contentTotalCount})
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Result Text */}
+          <Card className="mb-6 bg-[#1E1E1E]/80 border-white/10">
+            <CardHeader>
+              <div className="flex items-center gap-2">
+                <Sparkles className="w-5 h-5 text-luxury-gold" />
+                <CardTitle className="text-xl font-serif text-luxury-gold">
+                  결과 설명
+                </CardTitle>
               </div>
-            )}
-            <div className="test-result-text pt-8">
-              {textSplit.map((line, index) => (
-                <p key={index} dangerouslySetInnerHTML={{ __html: line }} />
-              ))}
+            </CardHeader>
+            <CardContent>
+              <div className="text-gray-300 leading-relaxed space-y-4">
+                {textSplit.map((line, index) => (
+                  <p key={index} dangerouslySetInnerHTML={{ __html: line }} />
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* AdSense */}
+          {item.adsenses?.result && (
+            <div className="my-6">
+              <ins
+                className="adsbygoogle"
+                style={{ display: "block" }}
+                data-ad-client="ca-pub-1963334904140891"
+                data-ad-slot={item.adsenses.result}
+                data-ad-format="auto"
+                data-full-width-responsive="true"
+              ></ins>
             </div>
+          )}
+
+          {/* Action Buttons */}
+          <div className="flex gap-4 justify-center mb-6">
+            <Link href={`/${category}/${link}/play`}>
+              <Button className="bg-luxury-gold hover:bg-luxury-gold/90 text-black font-semibold">
+                <RotateCcw className="mr-2 w-4 h-4" />
+                다시 테스트하기
+              </Button>
+            </Link>
+            <Link href="/">
+              <Button
+                variant="outline"
+                className="border-luxury-gold/40 text-luxury-gold hover:bg-luxury-gold/10"
+              >
+                <Home className="mr-2 w-4 h-4" />
+                홈으로
+              </Button>
+            </Link>
           </div>
+
+          {/* Share Component */}
+          <Fshare
+            title={`${item.title} 테스트 결과 - 마인드팡`}
+            imageUrl={
+              resultItem.url ||
+              item.logo ||
+              "https://mindpang.com/mindpang-opengraph-logo.png"
+            }
+            url={`https://mindpang.com/${category}/${link}`}
+          />
         </div>
-        {/* Share component would go here */}
-        <h2 className="text-xl font-bold">👉 다른 테스트 하러가기</h2>
-        {/* TestList component would go here */}
       </main>
     </Layout>
   );

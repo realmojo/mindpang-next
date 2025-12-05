@@ -4,7 +4,13 @@ import { useState, useEffect } from "react";
 import Layout from "@/components/Layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Fshare from "@/components/Fshare";
-import { Sparkles, TrendingUp, AlertCircle, Heart, Loader2 } from "lucide-react";
+import {
+  Sparkles,
+  TrendingUp,
+  AlertCircle,
+  Heart,
+  Loader2,
+} from "lucide-react";
 
 interface ResultItem {
   title: string;
@@ -137,7 +143,7 @@ export default function WonyoungThinkResultPage() {
   if (isLoading || !resultItem) {
     return (
       <Layout>
-        <div className="flex items-center justify-center min-h-screen">
+        <div className="flex items-center justify-center">
           <div className="text-center">
             <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4 text-luxury-gold" />
             <p className="text-gray-400">결과를 불러오는 중...</p>
@@ -264,4 +270,3 @@ export default function WonyoungThinkResultPage() {
     </Layout>
   );
 }
-
