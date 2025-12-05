@@ -1,0 +1,49 @@
+[
+  {
+    "title": "전체",
+    "key": "all",
+    "link": "/",
+    "icon": ""
+  },
+  {
+    "title": "테스트",
+    "key": "test",
+    "link": "/test",
+    "icon": ""
+  },
+  {
+    "title": "라이프",
+    "key": "life",
+    "link": "/life",
+    "icon": ""
+  },
+  {
+    "title": "사랑",
+    "key": "love",
+    "link": "/love",
+    "icon": ""
+  },
+  {
+    "title": "건강",
+    "key": "health",
+    "link": "/health",
+    "icon": ""
+  },
+  {
+    "title": "돈",
+    "key": "money",
+    "link": "/money"
+  },
+  {
+    "title": "연예",
+    "key": "entertain",
+    "link": "/entertain",
+    "icon": ""
+  },
+  {
+    "title": "다운로드",
+    "key": "download",
+    "link": "/download",
+    "icon": ""
+  }
+]

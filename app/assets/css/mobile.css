@@ -1,0 +1,42 @@
+@media (max-width: 448px) {
+  .site-layout {
+    width: 100%;
+  }
+  section {
+    padding: 10px;
+  }
+
+  .test-layout {
+    width: 100%;
+    margin: 0 auto;
+  }
+  .site-layout.pitch,
+  .site-layout.match,
+  .site-layout.memory,
+  .site-layout.sudoku {
+    width: 100%;
+  }
+  .pitch-iframe,
+  .match-iframe {
+    width: 100%;
+    height: 500px;
+  }
+  .memory-iframe {
+    width: 100%;
+    height: 570px;
+  }
+  .sudoku-iframe {
+    width: 100%;
+    height: 800px;
+  }
+  .mobile-modal {
+    width: 100%;
+    padding: 0;
+  }
+
+  .mobile-modal > h3,
+  .mobile-modal > p,
+  .mobile-modal > .down-btn {
+    padding: 1.5rem;
+  }
+}
