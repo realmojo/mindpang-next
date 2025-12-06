@@ -3,7 +3,6 @@
 import { useState, useEffect, useCallback } from "react";
 import Layout from "@/components/Layout";
 import Fshare from "@/components/Fshare";
-import Script from "next/script";
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -58,12 +57,6 @@ export default function SpeedCompletePage() {
 
   return (
     <Layout>
-      <Script
-        async
-        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1963334904140891"
-        crossOrigin="anonymous"
-        strategy="afterInteractive"
-      />
       <main className="speed-layout site-layout flex flex-col px-2 bg-gray-800 min-h-screen">
         {!isCalc ? (
           <Card className="bg-[#1E1E1E]/80 border-white/10">
@@ -99,7 +92,7 @@ export default function SpeedCompletePage() {
               <ins
                 className="adsbygoogle"
                 style={{ display: "block" }}
-                data-ad-client="ca-pub-1963334904140891"
+                data-ad-client="ca-pub-9130836798889522"
                 data-ad-slot="7421797623"
                 data-ad-format="auto"
                 data-full-width-responsive="true"

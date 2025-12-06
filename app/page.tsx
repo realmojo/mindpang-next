@@ -118,7 +118,9 @@ function HomeContent() {
           <>
             <div className="px-4 relative z-10">
               <div className="flex items-center justify-between mb-6 px-2">
-                <h3 className="text-xl font-serif text-gray-200">Latest Tests</h3>
+                <h3 className="text-xl font-serif text-gray-200">
+                  Latest Tests
+                </h3>
                 <div className="h-[1px] flex-grow ml-4 bg-gradient-to-r from-white/10 to-transparent"></div>
               </div>
 
@@ -154,18 +156,20 @@ function HomeContent() {
 
 export default function Home() {
   return (
-    <Suspense fallback={
-      <Layout>
-        <main className="site-layout pb-20">
-          <div className="flex items-center justify-center min-h-screen">
-            <div className="text-center">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-luxury-gold mx-auto mb-4"></div>
-              <p className="text-gray-400">로딩 중...</p>
+    <Suspense
+      fallback={
+        <Layout>
+          <main className="site-layout pb-20">
+            <div className="flex items-center justify-center min-h-screen">
+              <div className="text-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-luxury-gold mx-auto mb-4"></div>
+                <p className="text-gray-400">로딩 중...</p>
+              </div>
             </div>
-          </div>
-        </main>
-      </Layout>
-    }>
+          </main>
+        </Layout>
+      }
+    >
       <HomeContent />
     </Suspense>
   );

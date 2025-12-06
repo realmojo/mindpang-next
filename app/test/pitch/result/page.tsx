@@ -3,7 +3,6 @@
 import { useState, useCallback } from "react";
 import Layout from "@/components/Layout";
 import Fshare from "@/components/Fshare";
-import Script from "next/script";
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -121,12 +120,6 @@ export default function PitchResultPage() {
 
   return (
     <Layout>
-      <Script
-        async
-        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1963334904140891"
-        crossOrigin="anonymous"
-        strategy="afterInteractive"
-      />
       <main className="test-layout flex justify-center flex-col">
         <div className="pt-4">
           <div>
@@ -139,7 +132,7 @@ export default function PitchResultPage() {
               <ins
                 className="adsbygoogle"
                 style={{ display: "block" }}
-                data-ad-client="ca-pub-1963334904140891"
+                data-ad-client="ca-pub-9130836798889522"
                 data-ad-slot="8764169614"
                 data-ad-format="auto"
                 data-full-width-responsive="true"
@@ -221,7 +214,7 @@ export default function PitchResultPage() {
               <ins
                 className="adsbygoogle"
                 style={{ display: "block" }}
-                data-ad-client="ca-pub-1963334904140891"
+                data-ad-client="ca-pub-9130836798889522"
                 data-ad-slot="8820009937"
                 data-ad-format="auto"
                 data-full-width-responsive="true"

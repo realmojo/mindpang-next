@@ -109,7 +109,7 @@ export default async function TFTestPage() {
         />
         <Script
           async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1963334904140891"
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9130836798889522"
           crossOrigin="anonymous"
           strategy="afterInteractive"
         />
@@ -148,7 +148,7 @@ export default async function TFTestPage() {
           <ins
             className="adsbygoogle"
             style={{ display: "block" }}
-            data-ad-client="ca-pub-1963334904140891"
+            data-ad-client="ca-pub-9130836798889522"
             data-ad-slot="8897750578"
             data-ad-format="auto"
             data-full-width-responsive="true"

@@ -4,7 +4,6 @@ import { useState, useEffect, useCallback, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Layout from "@/components/Layout";
 import Fshare from "@/components/Fshare";
-import Script from "next/script";
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Wine, Heart, Sparkles, Loader2 } from "lucide-react";
@@ -98,12 +97,6 @@ function DrinkResultContent() {
 
   return (
     <Layout>
-      <Script
-        async
-        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1963334904140891"
-        crossOrigin="anonymous"
-        strategy="afterInteractive"
-      />
       <main className="test-layout flex justify-center flex-col">
         <div className="w-full max-w-2xl mx-auto p-4">
           <h1 className="text-center text-3xl font-bold text-gray-100 mb-6">
@@ -135,7 +128,7 @@ function DrinkResultContent() {
           <ins
             className="adsbygoogle"
             style={{ display: "block" }}
-            data-ad-client="ca-pub-1963334904140891"
+            data-ad-client="ca-pub-9130836798889522"
             data-ad-slot="6941176195"
             data-ad-format="auto"
             data-full-width-responsive="true"
@@ -242,16 +235,18 @@ function DrinkResultContent() {
 
 export default function DrinkResultPage() {
   return (
-    <Suspense fallback={
-      <Layout>
-        <div className="flex items-center justify-center min-h-screen">
-          <div className="text-center">
-            <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4 text-luxury-gold" />
-            <p className="text-gray-400">로딩 중...</p>
+    <Suspense
+      fallback={
+        <Layout>
+          <div className="flex items-center justify-center min-h-screen">
+            <div className="text-center">
+              <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4 text-luxury-gold" />
+              <p className="text-gray-400">로딩 중...</p>
+            </div>
           </div>
-        </div>
-      </Layout>
-    }>
+        </Layout>
+      }
+    >
       <DrinkResultContent />
     </Suspense>
   );

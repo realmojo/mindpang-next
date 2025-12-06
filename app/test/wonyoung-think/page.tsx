@@ -128,12 +128,6 @@ export default async function WonyoungThinkPage() {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        <Script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1963334904140891"
-          crossOrigin="anonymous"
-          strategy="afterInteractive"
-        />
 
         {/* Hero Section */}
         <div className="relative overflow-hidden bg-gradient-to-br from-luxury-gold/10 via-transparent to-luxury-gold/5 rounded-2xl p-8 mb-8">
@@ -179,7 +173,7 @@ export default async function WonyoungThinkPage() {
           <ins
             className="adsbygoogle"
             style={{ display: "block" }}
-            data-ad-client="ca-pub-1963334904140891"
+            data-ad-client="ca-pub-9130836798889522"
             data-ad-slot="8897750578"
             data-ad-format="auto"
             data-full-width-responsive="true"
