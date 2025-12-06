@@ -2,9 +2,21 @@ import { Metadata } from "next";
 import Script from "next/script";
 import Layout from "@/components/Layout";
 import Link from "next/link";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Sparkles, PawPrint, BookOpen, TreePine, ArrowRight } from "lucide-react";
+import {
+  Sparkles,
+  PawPrint,
+  BookOpen,
+  TreePine,
+  ArrowRight,
+} from "lucide-react";
 
 const metaUrl = "https://mindpang.com/test/animal";
 const title = `영적동물 테스트 - 마인드팡`;
@@ -95,6 +107,7 @@ export const metadata: Metadata = {
 };
 
 async function incrementCount() {
+  console.log("incrementCount");
   try {
     const url = `https://api.mindpang.com/api/mind/count.php?link=animal`;
     await fetch(url, { cache: "no-store" });
@@ -190,4 +203,3 @@ export default async function AnimalTestPage() {
     </Layout>
   );
 }
-
