@@ -1,51 +1,35 @@
-import { Suspense } from "react";
-import Layout from "@/components/Layout";
-import HomeContent from "@/components/HomeContent";
+import { NextRequest, NextResponse } from "next/server";
+import { supabaseAdmin } from "@/lib/supabase";
 
-interface TestItem {
-  category: string;
-  link: string;
-  title: string;
-  description?: string;
-  logo: string;
-}
-
-interface SidebarItem {
-  category: string;
-  link: string;
-  title: string;
-  logo: string;
-}
-
-interface ApiResponse {
-  items: TestItem[];
-  recentlyItems: SidebarItem[];
-  popularItems: SidebarItem[];
-}
-
-async function getMainData(search: string = ""): Promise<ApiResponse> {
+export async function GET(request: NextRequest) {
   try {
-    const { supabaseAdmin } = await import("@/lib/supabase");
-
     if (!supabaseAdmin) {
-      console.error("Supabase admin client is not available");
-      return {
-        items: [],
-        recentlyItems: [],
-        popularItems: [],
-      };
+      return NextResponse.json(
+        { success: false, error: "Supabase 설정이 완료되지 않았습니다." },
+        { status: 500 }
+      );
     }
 
-    const offset = 12;
-    const startOffset = 0;
+    const searchParams = request.nextUrl.searchParams;
+    const page = parseInt(searchParams.get("page") || "0", 10);
+    const category = searchParams.get("category") || "";
+    const search = searchParams.get("search") || "";
 
-    // 메인 리스트 쿼리 구성
+    const offset = 12;
+    const startOffset = page * offset;
+
+    // 메인 리스트 쿼리 구성 - status 필터를 ilike로 변경
     let query = supabaseAdmin
       .from("mindpang_test")
       .select(
         "id, title, description, category, logo, link, up, count, status, sort"
       )
       .eq("status", "active");
+
+    // 카테고리 필터
+    if (category !== "") {
+      query = query.ilike("category", `%${category}%`);
+    }
 
     // 검색 필터
     if (search !== "") {
@@ -60,11 +44,10 @@ async function getMainData(search: string = ""): Promise<ApiResponse> {
 
     if (itemsError) {
       console.error("Error fetching items:", itemsError);
-      return {
-        items: [],
-        recentlyItems: [],
-        popularItems: [],
-      };
+      return NextResponse.json(
+        { error: "Failed to fetch items" },
+        { status: 500 }
+      );
     }
 
     // 인기 항목 (count 기준, 상위 10개)
@@ -77,6 +60,10 @@ async function getMainData(search: string = ""): Promise<ApiResponse> {
 
     if (popularError) {
       console.error("Error fetching popular items:", popularError);
+      return NextResponse.json(
+        { error: "Failed to fetch popular items" },
+        { status: 500 }
+      );
     }
 
     // 최근 항목 (sort 기준, 상위 10개)
@@ -89,9 +76,14 @@ async function getMainData(search: string = ""): Promise<ApiResponse> {
 
     if (recentError) {
       console.error("Error fetching recent items:", recentError);
+      return NextResponse.json(
+        { error: "Failed to fetch recent items" },
+        { status: 500 }
+      );
     }
 
-    return {
+    // PHP API와 동일한 형식으로 반환 (idx -> id로 매핑)
+    const response = {
       items:
         items?.map((item: any) => ({
           id: item.id,
@@ -120,47 +112,13 @@ async function getMainData(search: string = ""): Promise<ApiResponse> {
           link: item.link,
         })) || [],
     };
+
+    return NextResponse.json(response);
   } catch (error) {
-    console.error("Failed to load data:", error);
-    return {
-      items: [],
-      recentlyItems: [],
-      popularItems: [],
-    };
+    console.error("API Error:", error);
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
   }
-}
-
-interface HomeProps {
-  searchParams: Promise<{ search?: string }>;
-}
-
-export default async function Home({ searchParams }: HomeProps) {
-  const params = await searchParams;
-  const search = params?.search || "";
-
-  const data = await getMainData(search);
-
-  return (
-    <Layout>
-      <Suspense
-        fallback={
-          <main className="site-layout pb-20">
-            <div className="flex items-center justify-center min-h-screen">
-              <div className="text-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-luxury-gold mx-auto mb-4"></div>
-                <p className="text-gray-400">로딩 중...</p>
-              </div>
-            </div>
-          </main>
-        }
-      >
-        <HomeContent
-          initialItems={data.items}
-          recentlyItems={data.recentlyItems}
-          popularItems={data.popularItems}
-          searchQuery={search}
-        />
-      </Suspense>
-    </Layout>
-  );
 }

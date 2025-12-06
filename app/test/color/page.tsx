@@ -2,12 +2,7 @@ import { Metadata } from "next";
 import Script from "next/script";
 import Layout from "@/components/Layout";
 import Link from "next/link";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Sparkles, Eye, Palette, ArrowRight } from "lucide-react";
 
@@ -100,8 +95,30 @@ export const metadata: Metadata = {
 
 async function incrementCount() {
   try {
-    const url = `https://api.mindpang.com/api/mind/count.php?link=color`;
-    await fetch(url, { cache: "no-store" });
+    const { supabaseAdmin } = await import("@/lib/supabase");
+    if (!supabaseAdmin) return;
+
+    
+    const { error } = await (supabaseAdmin as any).rpc(
+      "increment_test_count",
+      { test_link: "color" }
+    );
+
+    if (error) {
+      const { data: currentData, error: fetchError } = await supabaseAdmin
+        .from("mindpang_test")
+        .select("count")
+        .eq("link", "color")
+        .single();
+
+      if (!fetchError && currentData) {
+        
+        await (supabaseAdmin as any)
+          .from("mindpang_test")
+          .update({ count: ((currentData as any).count || 0) + 1 })
+          .eq("link", "color");
+      }
+    }
   } catch (error) {
     console.error("Error incrementing count:", error);
   }
@@ -193,4 +210,3 @@ export default async function ColorPage() {
     </Layout>
   );
 }
-

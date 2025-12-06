@@ -95,8 +95,30 @@ export const metadata: Metadata = {
 
 async function incrementCount() {
   try {
-    const url = `https://api.mindpang.com/api/mind/count.php?link=drink`;
-    await fetch(url, { cache: "no-store" });
+    const { supabaseAdmin } = await import("@/lib/supabase");
+    if (!supabaseAdmin) return;
+
+    // PostgreSQL 함수를 사용하여 SET count = count + 1 실행
+
+    const { error } = await (supabaseAdmin as any).rpc("increment_test_count", {
+      test_link: "drink",
+    });
+
+    if (error) {
+      // 함수가 없으면 fallback으로 직접 업데이트
+      const { data: currentData, error: fetchError } = await supabaseAdmin
+        .from("mindpang_test")
+        .select("count")
+        .eq("link", "drink")
+        .single();
+
+      if (!fetchError && currentData) {
+        await (supabaseAdmin as any)
+          .from("mindpang_test")
+          .update({ count: ((currentData as any).count || 0) + 1 })
+          .eq("link", "drink");
+      }
+    }
   } catch (error) {
     console.error("Error incrementing count:", error);
   }

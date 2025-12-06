@@ -37,10 +37,9 @@ const eslintConfig = defineConfig([
           caughtErrorsIgnorePattern: "^_",
         },
       ],
-      // Allow any type but warn
-      "@typescript-eslint/no-explicit-any": "warn",
       // Allow img tag usage (disabled Image component requirement)
       "@next/next/no-img-element": "off",
+      "@typescript-eslint/no-explicit-any": "off",
     },
   },
 ]);

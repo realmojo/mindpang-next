@@ -55,7 +55,7 @@ export default function PlayPage() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const url = `https://api.mindpang.com/api/mind/content.php?link=${link}`;
+      const url = `/api/content?link=${link}`;
       const response = await fetch(url);
       const data = await response.json();
       setItem(data);

@@ -2,14 +2,16 @@ import { Metadata } from "next";
 import Script from "next/script";
 import Layout from "@/components/Layout";
 import Link from "next/link";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Sparkles, Users, Target, Heart, Brain, ArrowRight } from "lucide-react";
+import {
+  Sparkles,
+  Users,
+  Target,
+  Heart,
+  Brain,
+  ArrowRight,
+} from "lucide-react";
 
 const metaUrl = "https://mindpang.com/test/disc";
 const title = "DISC 성격유형 테스트 - 당신의 행동 유형을 1분 만에 알아보세요";
@@ -112,8 +114,30 @@ export const metadata: Metadata = {
 
 async function incrementCount() {
   try {
-    const url = `https://api.mindpang.com/api/mind/count.php?link=disc`;
-    await fetch(url, { cache: "no-store" });
+    const { supabaseAdmin } = await import("@/lib/supabase");
+    if (!supabaseAdmin) return;
+
+    
+    const { error } = await (supabaseAdmin as any).rpc(
+      "increment_test_count",
+      { test_link: "disc" }
+    );
+
+    if (error) {
+      const { data: currentData, error: fetchError } = await supabaseAdmin
+        .from("mindpang_test")
+        .select("count")
+        .eq("link", "disc")
+        .single();
+
+      if (!fetchError && currentData) {
+        
+        await (supabaseAdmin as any)
+          .from("mindpang_test")
+          .update({ count: ((currentData as any).count || 0) + 1 })
+          .eq("link", "disc");
+      }
+    }
   } catch (error) {
     console.error("Error incrementing count:", error);
   }
@@ -142,8 +166,8 @@ export default async function DISCPage() {
               DISC 성격유형 테스트
             </h1>
             <p className="text-lg text-gray-300 max-w-2xl mx-auto leading-relaxed">
-              나는 어떤 행동 유형일까? DISC 이론을 바탕으로 나의 커뮤니케이션 및 행동
-              스타일을 1분 만에 파악해보세요!
+              나는 어떤 행동 유형일까? DISC 이론을 바탕으로 나의 커뮤니케이션 및
+              행동 스타일을 1분 만에 파악해보세요!
             </p>
             <div className="pt-4">
               <Link href="/test/disc/play">
@@ -206,4 +230,3 @@ export default async function DISCPage() {
     </Layout>
   );
 }
-

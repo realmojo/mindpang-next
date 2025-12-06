@@ -89,8 +89,30 @@ export const metadata: Metadata = {
 
 async function incrementCount() {
   try {
-    const url = `https://api.mindpang.com/api/mind/count.php?link=tf`;
-    await fetch(url, { cache: "no-store" });
+    const { supabaseAdmin } = await import("@/lib/supabase");
+    if (!supabaseAdmin) return;
+
+    
+    const { error } = await (supabaseAdmin as any).rpc(
+      "increment_test_count",
+      { test_link: "tf" }
+    );
+
+    if (error) {
+      const { data: currentData, error: fetchError } = await supabaseAdmin
+        .from("mindpang_test")
+        .select("count")
+        .eq("link", "tf")
+        .single();
+
+      if (!fetchError && currentData) {
+        
+        await (supabaseAdmin as any)
+          .from("mindpang_test")
+          .update({ count: ((currentData as any).count || 0) + 1 })
+          .eq("link", "tf");
+      }
+    }
   } catch (error) {
     console.error("Error incrementing count:", error);
   }

@@ -2,12 +2,7 @@ import { Metadata } from "next";
 import Script from "next/script";
 import Layout from "@/components/Layout";
 import Link from "next/link";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Sparkles, Heart, Zap, Users, ArrowRight } from "lucide-react";
 
@@ -102,8 +97,30 @@ export const metadata: Metadata = {
 
 async function incrementCount() {
   try {
-    const url = `https://api.mindpang.com/api/mind/count.php?link=egen-teto-woman`;
-    await fetch(url, { cache: "no-store" });
+    const { supabaseAdmin } = await import("@/lib/supabase");
+    if (!supabaseAdmin) return;
+
+    
+    const { error } = await (supabaseAdmin as any).rpc(
+      "increment_test_count",
+      { test_link: "egen-teto-woman" }
+    );
+
+    if (error) {
+      const { data: currentData, error: fetchError } = await supabaseAdmin
+        .from("mindpang_test")
+        .select("count")
+        .eq("link", "egen-teto-woman")
+        .single();
+
+      if (!fetchError && currentData) {
+        
+        await (supabaseAdmin as any)
+          .from("mindpang_test")
+          .update({ count: ((currentData as any).count || 0) + 1 })
+          .eq("link", "egen-teto-woman");
+      }
+    }
   } catch (error) {
     console.error("Error incrementing count:", error);
   }
@@ -197,4 +214,3 @@ export default async function EgenTetoWomanPage() {
     </Layout>
   );
 }
-

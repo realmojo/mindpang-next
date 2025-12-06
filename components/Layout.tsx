@@ -23,7 +23,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   const performSearch = useCallback(async (newSearchText: string) => {
     if (newSearchText) {
-      const url = `https://api.mindpang.com/api/mind/search.php?search=${newSearchText}`;
+      const url = `/api/search?search=${newSearchText}`;
       try {
         const response = await fetch(url);
         const data = await response.json();
@@ -56,7 +56,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   }, [searchText, performSearch]);
 
   const doRandomStart = async () => {
-    const url = `https://api.mindpang.com/api/mind/all.php`;
+    const url = "/api/all";
     try {
       const response = await fetch(url);
       const data = await response.json();

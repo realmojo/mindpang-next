@@ -61,7 +61,6 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
-  themeColor: "#E5BA73",
   other: {
     "fb:app_id": "1301107411567112",
   },

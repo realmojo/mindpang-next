@@ -16,26 +16,163 @@ interface PageProps {
 
 async function getItemData(link: string) {
   try {
-    const url = `https://api.mindpang.com/api/mind/item.php?link=${link}`;
-    const response = await fetch(url, {
-      cache: "no-store", // Ensure fresh data
-    });
+    const { supabaseAdmin } = await import("@/lib/supabase");
 
-    if (!response.ok) {
-      throw new Error(`Failed to fetch: ${response.status}`);
+    if (!supabaseAdmin) {
+      console.error("Supabase admin client is not available");
+      return {
+        item: null,
+        popularItems: [],
+        recentlyItems: [],
+      };
     }
 
-    const data = await response.json();
+    // 메인 아이템 조회 (JOIN)
+    const { data: itemData, error: itemError } = await supabaseAdmin
+      .from("mindpang_test")
+      .select(
+        `
+        id,
+        title,
+        link,
+        adsenses,
+        articles,
+        category,
+        description,
+        tags,
+        logo,
+        mindpang_test_content (
+          type,
+          testId,
+          contents,
+          results
+        )
+      `
+      )
+      .eq("link", link)
+      .single();
 
-    // Log for debugging if item is missing
-    if (!data?.item) {
-      console.warn("API response missing item:", data);
+    if (itemError || !itemData) {
+      console.error("Error fetching item:", itemError);
+      return {
+        item: null,
+        popularItems: [],
+        recentlyItems: [],
+      };
     }
 
-    return data;
+    const typedItemData = itemData as any;
+
+    // 조회수 증가
+    if (typedItemData.id) {
+      const { data: currentData } = await supabaseAdmin
+        .from("mindpang_test")
+        .select("count")
+        .eq("id", typedItemData.id)
+        .single();
+
+      if (currentData) {
+        const currentCount = (currentData as any).count || 0;
+        const admin = supabaseAdmin; // 타입 가드를 위한 로컬 변수
+
+        await (admin as any)
+          .from("mindpang_test")
+          .update({ count: currentCount + 1 })
+          .eq("id", typedItemData.id);
+      }
+    }
+
+    // 데이터 후처리
+    const testContent = Array.isArray(typedItemData.mindpang_test_content)
+      ? typedItemData.mindpang_test_content[0]
+      : typedItemData.mindpang_test_content;
+
+    const processedItem = {
+      idx: typedItemData.id,
+      title: typedItemData.title,
+      link: typedItemData.link,
+      adsenses: typedItemData.adsenses
+        ? typeof typedItemData.adsenses === "string"
+          ? JSON.parse(typedItemData.adsenses)
+          : typedItemData.adsenses
+        : null,
+      articles: typedItemData.articles
+        ? typeof typedItemData.articles === "string"
+          ? JSON.parse(typedItemData.articles)
+          : typedItemData.articles
+        : null,
+      category: typedItemData.category,
+      description: typedItemData.description,
+      tags: typedItemData.tags
+        ? typedItemData.tags.split(",").map((tag: string) => tag.trim())
+        : [],
+      logo: typedItemData.logo,
+      type: testContent?.type || null,
+      testIdx: testContent?.testId || null,
+      contents: testContent?.contents
+        ? typeof testContent.contents === "string"
+          ? JSON.parse(testContent.contents)
+          : testContent.contents
+        : null,
+      results: testContent?.results
+        ? typeof testContent.results === "string"
+          ? JSON.parse(testContent.results.replace(/\n/g, "<br />"))
+          : testContent.results
+        : null,
+    };
+
+    // 인기 항목 (count 기준, 상위 10개)
+
+    const { data: popularItems, error: popularError } = await supabaseAdmin
+      .from("mindpang_test")
+      .select("id, title, logo, category, link")
+      .eq("status", "active")
+      .order("count", { ascending: false })
+      .limit(10);
+
+    if (popularError) {
+      console.error("Error fetching popular items:", popularError);
+    }
+
+    // 최근 항목 (sort 기준, 상위 10개)
+
+    const { data: recentlyItems, error: recentError } = await supabaseAdmin
+      .from("mindpang_test")
+      .select("id, title, logo, category, link")
+      .eq("status", "active")
+      .order("sort", { ascending: true })
+      .limit(10);
+
+    if (recentError) {
+      console.error("Error fetching recent items:", recentError);
+    }
+
+    return {
+      item: processedItem,
+      popularItems:
+        popularItems?.map((item: any) => ({
+          idx: item.id,
+          title: item.title,
+          logo: item.logo,
+          category: item.category,
+          link: item.link,
+        })) || [],
+      recentlyItems:
+        recentlyItems?.map((item: any) => ({
+          idx: item.id,
+          title: item.title,
+          logo: item.logo,
+          category: item.category,
+          link: item.link,
+        })) || [],
+    };
   } catch (error) {
     console.error("Error fetching item data:", error);
-    throw error;
+    return {
+      item: null,
+      popularItems: [],
+      recentlyItems: [],
+    };
   }
 }
 
@@ -146,10 +283,34 @@ export default async function TestPage({ params }: PageProps) {
       },
     };
 
+    // 조회수 증가 (서버 사이드에서 직접 Supabase 호출)
     async function incrementCount() {
       try {
-        const url = `https://api.mindpang.com/api/mind/count.php?link=${link}`;
-        await fetch(url, { cache: "no-store" });
+        const { supabaseAdmin } = await import("@/lib/supabase");
+        if (!supabaseAdmin) return;
+
+        // PostgreSQL 함수를 사용하여 SET count = count + 1 실행
+
+        const { error } = await (supabaseAdmin as any).rpc(
+          "increment_test_count",
+          { test_link: link }
+        );
+
+        if (error) {
+          // 함수가 없으면 fallback으로 직접 업데이트
+          const { data: currentData, error: fetchError } = await supabaseAdmin
+            .from("mindpang_test")
+            .select("count")
+            .eq("link", link)
+            .single();
+
+          if (!fetchError && currentData) {
+            await (supabaseAdmin as any)
+              .from("mindpang_test")
+              .update({ count: ((currentData as any).count || 0) + 1 })
+              .eq("link", link);
+          }
+        }
       } catch (error) {
         console.error("Error incrementing count:", error);
       }
