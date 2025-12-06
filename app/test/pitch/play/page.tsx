@@ -345,20 +345,22 @@ export default function PitchPlayPage() {
       const nextQuestion = prev + 1;
       const randomNote = generateRandomNote(nextQuestion);
       setInitialRandomNote(randomNote);
+
+      // 음표 재생
+      const initialNoteIndex = noteOrder.indexOf(randomNote);
+      if (initialNoteIndex >= 0) {
+        const fileIndex = initialNoteIndex + 1;
+        const audioPath = `https://mindpang-image.s3.ap-northeast-2.amazonaws.com/piano-sound/${fileIndex}.mp3`;
+        const initialAudio = new Audio(audioPath);
+        initialAudio.play().catch((err) => {
+          console.error("초기 음표 재생 실패:", err);
+        });
+      }
+
       return nextQuestion;
     });
     setShowResult(false);
     setSelectedNote(null);
-
-    const initialNoteIndex = noteOrder.indexOf(randomNote);
-    if (initialNoteIndex >= 0) {
-      const fileIndex = initialNoteIndex + 1;
-      const audioPath = `https://mindpang-image.s3.ap-northeast-2.amazonaws.com/piano-sound/${fileIndex}.mp3`;
-      const initialAudio = new Audio(audioPath);
-      initialAudio.play().catch((err) => {
-        console.error("초기 음표 재생 실패:", err);
-      });
-    }
   };
 
   // 음표 재생
