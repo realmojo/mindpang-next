@@ -1,0 +1,13 @@
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "마인드팡",
+  "alternateName": "Mindpang",
+  "url": "https://mindpang.com",
+  "description": "무료 심리테스트, MBTI, 성격테스트 모음",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://mindpang.com/?search={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
