@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Layout from "@/components/Layout";
 import Fshare from "@/components/Fshare";
@@ -29,7 +29,7 @@ interface Results {
   [key: string]: ResultDetail;
 }
 
-export default function DrinkResultPage() {
+function DrinkResultContent() {
   const searchParams = useSearchParams();
   const [name, setName] = useState("");
   const [text, setText] = useState("");
@@ -237,5 +237,22 @@ export default function DrinkResultPage() {
         />
       </main>
     </Layout>
+  );
+}
+
+export default function DrinkResultPage() {
+  return (
+    <Suspense fallback={
+      <Layout>
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="text-center">
+            <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4 text-luxury-gold" />
+            <p className="text-gray-400">로딩 중...</p>
+          </div>
+        </div>
+      </Layout>
+    }>
+      <DrinkResultContent />
+    </Suspense>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Layout from "@/components/Layout";
 import Items from "@/components/Items";
@@ -20,7 +20,7 @@ interface ApiResponse {
   popularItems: TestItem[];
 }
 
-export default function Home() {
+function HomeContent() {
   const searchParams = useSearchParams();
   const searchQuery = searchParams.get("search") || "";
 
@@ -149,5 +149,24 @@ export default function Home() {
         )}
       </main>
     </Layout>
+  );
+}
+
+export default function Home() {
+  return (
+    <Suspense fallback={
+      <Layout>
+        <main className="site-layout pb-20">
+          <div className="flex items-center justify-center min-h-screen">
+            <div className="text-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-luxury-gold mx-auto mb-4"></div>
+              <p className="text-gray-400">로딩 중...</p>
+            </div>
+          </div>
+        </main>
+      </Layout>
+    }>
+      <HomeContent />
+    </Suspense>
   );
 }

@@ -1,13 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Layout from "@/components/Layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Sparkles, Loader2, Shirt } from "lucide-react";
 import Fshare from "@/components/Fshare";
 
-export default function FashionMBTIResultPage() {
+function FashionMBTIResultContent() {
   const searchParams = useSearchParams();
   const [name, setName] = useState("");
   const [text, setText] = useState("");
@@ -145,5 +145,22 @@ export default function FashionMBTIResultPage() {
         </div>
       </div>
     </Layout>
+  );
+}
+
+export default function FashionMBTIResultPage() {
+  return (
+    <Suspense fallback={
+      <Layout>
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="text-center">
+            <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4 text-luxury-gold" />
+            <p className="text-gray-400">로딩 중...</p>
+          </div>
+        </div>
+      </Layout>
+    }>
+      <FashionMBTIResultContent />
+    </Suspense>
   );
 }
