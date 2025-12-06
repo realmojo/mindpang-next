@@ -3,12 +3,8 @@
 import { useState, useEffect } from "react";
 import Layout from "@/components/Layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import {
   Sparkles,
-  Share2,
-  RotateCcw,
-  Home,
   Loader2,
   Flame,
   Zap,
@@ -17,7 +13,6 @@ import {
   Sparkles as SparklesIcon,
   Bird,
 } from "lucide-react";
-import Link from "next/link";
 import Fshare from "@/components/Fshare";
 
 interface ResultType {
@@ -177,7 +172,7 @@ export default function AnimalCompletePage() {
     }
 
     const scores = JSON.parse(scoresStr);
-    for (let score of scores) {
+    for (const score of scores) {
       if (score) {
         sum += score;
       }

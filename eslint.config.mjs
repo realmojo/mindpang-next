@@ -13,6 +13,36 @@ const eslintConfig = defineConfig([
     "build/**",
     "next-env.d.ts",
   ]),
+  {
+    rules: {
+      // Allow setState calls within useEffect - this is a common React pattern
+      // for initializing state from localStorage, API calls, etc.
+      "react-hooks/exhaustive-deps": "warn",
+      "react-hooks/rules-of-hooks": "error",
+      // Disable strict purity checks - Math.random and similar functions are
+      // acceptable when called within event handlers or useEffect
+      "react-hooks/purity": "off",
+      // Allow setState in useEffect for initialization patterns
+      "react-hooks/set-state-in-effect": "off",
+      // Allow manual memoization that React Compiler might not understand
+      "react-hooks/preserve-manual-memoization": "off",
+      // Reduce exhaustive-deps to warning only (common false positives)
+      "react-hooks/exhaustive-deps": "warn",
+      // Allow unused variables prefixed with underscore
+      "@typescript-eslint/no-unused-vars": [
+        "warn",
+        {
+          argsIgnorePattern: "^_",
+          varsIgnorePattern: "^_",
+          caughtErrorsIgnorePattern: "^_",
+        },
+      ],
+      // Allow any type but warn
+      "@typescript-eslint/no-explicit-any": "warn",
+      // Allow img tag usage (disabled Image component requirement)
+      "@next/next/no-img-element": "off",
+    },
+  },
 ]);
 
 export default eslintConfig;

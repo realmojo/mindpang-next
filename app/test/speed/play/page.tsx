@@ -10,7 +10,7 @@ export default function SpeedPlayPage() {
   const [isChange, setIsChange] = useState(false);
   const [result, setResult] = useState<number[]>([]);
   const [startTime, setStartTime] = useState(0);
-  const [endTime, setEndTime] = useState(0);
+  const [_endTime, setEndTime] = useState(0);
   const [diff, setDiff] = useState(0);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const initTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -61,12 +61,14 @@ export default function SpeedPlayPage() {
   useEffect(() => {
     init();
 
+    const timeoutCurrent = timeoutRef.current;
+    const initTimeoutCurrent = initTimeoutRef.current;
     return () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
+      if (timeoutCurrent) {
+        clearTimeout(timeoutCurrent);
       }
-      if (initTimeoutRef.current) {
-        clearTimeout(initTimeoutRef.current);
+      if (initTimeoutCurrent) {
+        clearTimeout(initTimeoutCurrent);
       }
     };
   }, []);

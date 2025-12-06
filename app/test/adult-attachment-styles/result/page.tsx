@@ -3,19 +3,14 @@
 import { useState, useEffect } from "react";
 import Layout from "@/components/Layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import {
   Heart,
   Shield,
   Users,
   FileText,
-  Share2,
-  RotateCcw,
-  Home,
   Sparkles,
   Loader2,
 } from "lucide-react";
-import Link from "next/link";
 import Fshare from "@/components/Fshare";
 interface ResultType {
   name: string;

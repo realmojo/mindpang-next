@@ -1,14 +1,13 @@
 // Global utility functions
-
 export function getCookie(name: string): string {
   if (typeof window === "undefined") return "";
-  
-  let cookieName = name + "=";
-  let decodedCookie = decodeURIComponent(document.cookie);
-  let cookieArray = decodedCookie.split(";");
+
+  const cookieName = name + "=";
+  const decodedCookie = decodeURIComponent(document.cookie);
+  const cookieArray = decodedCookie.split(";");
 
   for (let i = 0; i < cookieArray.length; i++) {
-    let cookie = cookieArray[i].trim();
+    const cookie = cookieArray[i].trim();
     if (cookie.indexOf(cookieName) === 0) {
       return cookie.substring(cookieName.length, cookie.length);
     }
@@ -61,4 +60,3 @@ export function coupangPartnerEnd() {
     overlay.classList.remove("on");
   }
 }
-

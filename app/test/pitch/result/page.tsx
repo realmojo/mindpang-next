@@ -1,13 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useCallback } from "react";
 import Layout from "@/components/Layout";
 import Fshare from "@/components/Fshare";
 import Script from "next/script";
 import Link from "next/link";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Music, CheckCircle2, XCircle, RotateCcw } from "lucide-react";
+import { CheckCircle2, XCircle, RotateCcw } from "lucide-react";
 
 interface Answer {
   question: number;
@@ -51,7 +51,7 @@ export default function PitchResultPage() {
     return "bg-gray-500/20 text-gray-300 border-2 border-gray-500";
   };
 
-  useEffect(() => {
+  useCallback(() => {
     if (typeof window === "undefined") return;
 
     const resultData = localStorage.getItem("pitch-test-result");

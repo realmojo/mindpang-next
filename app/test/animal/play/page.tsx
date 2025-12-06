@@ -1,19 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import Layout from "@/components/Layout";
 import Link from "next/link";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import {
-  PawPrint,
-  Loader2,
-  CheckCircle2,
-  ArrowRight,
-  Check,
-} from "lucide-react";
+import { Loader2, CheckCircle2, ArrowRight } from "lucide-react";
 
 interface Question {
   question: string;
@@ -143,7 +136,6 @@ const questions: Question[] = [
 ];
 
 export default function AnimalPlayPage() {
-  const router = useRouter();
   const [percent, setPercent] = useState(0);
   const [testAnswer, setTestAnswer] = useState<number[]>([]);
   const [isLoading, setIsLoading] = useState(false);

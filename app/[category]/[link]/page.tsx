@@ -6,7 +6,6 @@ import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Sparkles, ArrowRight } from "lucide-react";
-import Image from "next/image";
 
 interface PageProps {
   params: Promise<{
@@ -240,27 +239,36 @@ export default async function TestPage({ params }: PageProps) {
               </div>
 
               <div className="grid gap-6">
-                {item.articles.map((article: any, index: number) => (
-                  <Card
-                    key={index}
-                    className="bg-[#1E1E1E]/80 border-white/10 hover:border-luxury-gold/30 transition-all duration-300 hover:shadow-lg hover:shadow-luxury-gold/10"
-                  >
-                    <CardHeader>
-                      <CardTitle
-                        className="text-xl font-serif text-luxury-gold"
-                        dangerouslySetInnerHTML={{ __html: article.title }}
-                      />
-                    </CardHeader>
-                    <CardContent>
-                      <p
-                        className="text-gray-300 leading-relaxed"
-                        dangerouslySetInnerHTML={{
-                          __html: article.description,
-                        }}
-                      />
-                    </CardContent>
-                  </Card>
-                ))}
+                {item.articles.map(
+                  (
+                    article: {
+                      title: string;
+                      description: string;
+                      url: string;
+                    },
+                    index: number
+                  ) => (
+                    <Card
+                      key={index}
+                      className="bg-[#1E1E1E]/80 border-white/10 hover:border-luxury-gold/30 transition-all duration-300 hover:shadow-lg hover:shadow-luxury-gold/10"
+                    >
+                      <CardHeader>
+                        <CardTitle
+                          className="text-xl font-serif text-luxury-gold"
+                          dangerouslySetInnerHTML={{ __html: article.title }}
+                        />
+                      </CardHeader>
+                      <CardContent>
+                        <p
+                          className="text-gray-300 leading-relaxed"
+                          dangerouslySetInnerHTML={{
+                            __html: article.description,
+                          }}
+                        />
+                      </CardContent>
+                    </Card>
+                  )
+                )}
               </div>
             </div>
           )}

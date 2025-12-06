@@ -8,6 +8,13 @@ interface SidebarItem {
   logo: string;
 }
 
+interface CategoryItem {
+  title: string;
+  key: string;
+  link: string;
+  icon?: string;
+}
+
 interface SidebarProps {
   recentlyItems: SidebarItem[];
   popularItems: SidebarItem[];
@@ -50,7 +57,7 @@ export default function Sidebar({ recentlyItems, popularItems }: SidebarProps) {
           Categories
         </h3>
         <div className="flex flex-wrap gap-2">
-          {menuItems.map((menu: any) => (
+          {(menuItems as CategoryItem[]).map((menu) => (
             <Link
               key={menu.key}
               href={menu.key !== "all" ? `/${menu.key}` : "/"}
@@ -126,4 +133,3 @@ export default function Sidebar({ recentlyItems, popularItems }: SidebarProps) {
     </div>
   );
 }
-

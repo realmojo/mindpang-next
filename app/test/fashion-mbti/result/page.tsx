@@ -6,7 +6,6 @@ import Layout from "@/components/Layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Sparkles, Loader2, Shirt } from "lucide-react";
 import Fshare from "@/components/Fshare";
-import Image from "next/image";
 
 export default function FashionMBTIResultPage() {
   const searchParams = useSearchParams();
@@ -117,13 +116,10 @@ export default function FashionMBTIResultPage() {
             <CardContent>
               {/* Image */}
               <div className="w-full pb-4">
-                <Image
+                <img
                   src={`https://mindpang-image.s3.ap-northeast-2.amazonaws.com/fashion-mbti/${name.toLowerCase()}.webp`}
                   alt={`${name} 패션 MBTI`}
-                  width={800}
-                  height={600}
                   className="w-full h-auto rounded-lg"
-                  unoptimized
                 />
               </div>
 

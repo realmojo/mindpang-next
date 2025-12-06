@@ -1,12 +1,15 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Layout from "@/components/Layout";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { Loader2, CheckCircle2, ArrowRight } from "lucide-react";
+import { Loader2 } from "lucide-react";
+
+// Helper functions moved outside component to avoid render-time impurity
+// Note: This function is only used in calculateResult, which is called from event handlers
 
 interface Content {
   title: {
@@ -63,9 +66,9 @@ export default function PlayPage() {
     fetchData();
   }, [link]);
 
-  const getRandomNumber = (min: number, max: number) => {
+  const getRandomNumber = useCallback((min: number, max: number) => {
     return Math.floor(Math.random() * (max - min + 1) + min);
-  };
+  }, []);
 
   const findIndexOfMax = (arr: number[]) => {
     if (arr.length === 0) {

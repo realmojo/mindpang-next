@@ -6,7 +6,7 @@ import Link from "next/link";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { Zap, Loader2, CheckCircle2, ArrowRight } from "lucide-react";
+import { Loader2, CheckCircle2, ArrowRight } from "lucide-react";
 
 const questions = [
   { question: "나는 감정보다 논리와 결과를 중요하게 생각하는 편이다." },
@@ -41,7 +41,6 @@ export default function EgenTetoManPlayPage() {
   const [isProcessing, setIsProcessing] = useState(false);
 
   const getButtonStyle = (n: number) => {
-    const maxSize = 56;
     let size = 56;
     let marginTop = 0;
 
@@ -246,4 +245,3 @@ export default function EgenTetoManPlayPage() {
     </Layout>
   );
 }
-

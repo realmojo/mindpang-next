@@ -124,14 +124,13 @@ const questions = [
 export default function DrinkPlayPage() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [percent, setPercent] = useState(0);
-  const [testAnswer, setTestAnswer] = useState<number[]>([]);
+  const [_testAnswer, setTestAnswer] = useState<number[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isResultButton, setIsResultButton] = useState(false);
   const [selectedValue, setSelectedValue] = useState<number | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
 
   const getButtonStyle = (n: number) => {
-    const maxSize = 56;
     let size = 56;
     let marginTop = 0;
 

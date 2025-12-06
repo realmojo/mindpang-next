@@ -6,7 +6,7 @@ import Link from "next/link";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { Heart, Loader2, CheckCircle2, ArrowRight } from "lucide-react";
+import { Loader2, CheckCircle2, ArrowRight } from "lucide-react";
 
 const questions = [
   { question: "나는 감정보다 현실적 상황 판단이 더 중요하다고 느낀다." },
@@ -46,7 +46,6 @@ export default function EgenTetoWomanPlayPage() {
   const [isProcessing, setIsProcessing] = useState(false);
 
   const getButtonStyle = (n: number) => {
-    const maxSize = 56;
     let size = 56;
     let marginTop = 0;
 
@@ -251,4 +250,3 @@ export default function EgenTetoWomanPlayPage() {
     </Layout>
   );
 }
-

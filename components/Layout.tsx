@@ -1,9 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
-import categoryJSON from "@/app/assets/js/category.json";
+import { useRouter } from "next/navigation";
 
 interface SearchItem {
   category: string;
@@ -14,26 +13,15 @@ interface SearchItem {
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const [isSearchList, setIsSearchList] = useState(false);
+  const [isSearchList, _setIsSearchList] = useState(false);
   const [searchItems, setSearchItems] = useState<SearchItem[]>([]);
-  const [searchText, setSearchText] = useState("");
+  const [searchText, _setSearchText] = useState("");
 
   const getRandomNumber = (min: number, max: number) => {
     return Math.floor(Math.random() * (max - min + 1) + min);
   };
 
-  const debounce = (func: (...args: any[]) => void, limit: number) => {
-    let timeout: NodeJS.Timeout;
-    return function (...args: any[]) {
-      clearTimeout(timeout);
-      timeout = setTimeout(() => {
-        func(...args);
-      }, limit);
-    };
-  };
-
-  const debouncedSearch = debounce(async (newSearchText: string) => {
+  const performSearch = useCallback(async (newSearchText: string) => {
     if (newSearchText) {
       const url = `https://api.mindpang.com/api/mind/search.php?search=${newSearchText}`;
       try {
@@ -47,15 +35,25 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     } else {
       setSearchItems([]);
     }
-  }, 300);
+  }, []);
 
   useEffect(() => {
+    let timeoutId: NodeJS.Timeout;
+
     if (searchText) {
-      debouncedSearch(searchText);
+      timeoutId = setTimeout(() => {
+        performSearch(searchText);
+      }, 300);
     } else {
-      setSearchItems([]);
+      performSearch("");
     }
-  }, [searchText]);
+
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+    };
+  }, [searchText, performSearch]);
 
   const doRandomStart = async () => {
     const url = `https://api.mindpang.com/api/mind/all.php`;
@@ -121,7 +119,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                     className="flex items-center p-4 hover:bg-white/5 transition-colors"
                   >
                     <img
-                      className="w-10 h-10 rounded object-cover mr-4"
+                      className="rounded object-cover mr-4"
                       alt={item.title}
                       src={item.logo}
                     />

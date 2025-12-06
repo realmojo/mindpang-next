@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Layout from "@/components/Layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Fshare from "@/components/Fshare";
@@ -112,7 +112,7 @@ export default function WonyoungThinkResultPage() {
   const [resultItem, setResultItem] = useState<ResultItem | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
+  const calculateResult = useCallback(() => {
     const result = JSON.parse(
       localStorage.getItem("mindpang-wonyoung-think-score") || "[]"
     );
@@ -140,6 +140,10 @@ export default function WonyoungThinkResultPage() {
     setIsLoading(false);
   }, []);
 
+  useEffect(() => {
+    calculateResult();
+  }, [calculateResult]);
+
   if (isLoading || !resultItem) {
     return (
       <Layout>
@@ -153,15 +157,15 @@ export default function WonyoungThinkResultPage() {
     );
   }
 
-  const getIcon = () => {
-    if (resultItem.title === "초긍정적 마인드") return Sparkles;
-    if (resultItem.title === "낙관적인 사고") return TrendingUp;
-    if (resultItem.title === "균형 잡힌 사고") return Heart;
-    if (resultItem.title === "조금 더 긍정적인 사고 필요") return AlertCircle;
-    return AlertCircle;
-  };
-
-  const Icon = getIcon();
+  // Get icon component based on result title (defined outside render)
+  let Icon = AlertCircle;
+  if (resultItem.title === "초긍정적 마인드") {
+    Icon = Sparkles;
+  } else if (resultItem.title === "낙관적인 사고") {
+    Icon = TrendingUp;
+  } else if (resultItem.title === "균형 잡힌 사고") {
+    Icon = Heart;
+  }
 
   return (
     <Layout>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Layout from "@/components/Layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Fshare from "@/components/Fshare";
@@ -31,7 +31,7 @@ export default function TFResultPage() {
   const [resultItem, setResultItem] = useState<ResultItem | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
+  const calculateResult = useCallback(() => {
     const result = JSON.parse(
       localStorage.getItem("mindpang-tf-score") || '{"T":0,"F":0}'
     );
@@ -76,7 +76,6 @@ export default function TFResultPage() {
       });
     } else {
       setResultItem({
-        result: "F",
         title: "감정적 사고",
         description:
           "축하합니다! 당신은 감정적 사고를 중심으로 문제를 해결하는 사람입니다. ❤️",
@@ -116,6 +115,10 @@ export default function TFResultPage() {
     }
     setIsLoading(false);
   }, []);
+
+  useEffect(() => {
+    calculateResult();
+  }, [calculateResult]);
 
   if (isLoading || !resultItem) {
     return (

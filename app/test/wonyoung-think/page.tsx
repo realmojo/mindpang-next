@@ -2,15 +2,9 @@ import { Metadata } from "next";
 import Script from "next/script";
 import Layout from "@/components/Layout";
 import Link from "next/link";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Sparkles, Heart, TrendingUp, ArrowRight } from "lucide-react";
-import Image from "next/image";
 
 const metaUrl = "https://mindpang.com/test/wonyoung-think";
 const title = "원영적 사고 테스트 - 마인드팡";
@@ -123,7 +117,7 @@ async function incrementCount() {
 }
 
 export default async function WonyoungThinkPage() {
-  const { item, tags } = await getItemData();
+  const { item } = await getItemData();
   incrementCount();
 
   return (
@@ -153,20 +147,18 @@ export default async function WonyoungThinkPage() {
             </h1>
             {item.logo && (
               <div className="mb-6">
-                <Image
+                <img
                   src={item.logo}
                   alt={item.link || "원영적 사고 테스트"}
-                  width={800}
-                  height={400}
                   className="w-full h-auto rounded-lg shadow-md"
                   loading="lazy"
                 />
               </div>
             )}
             <p className="text-lg text-gray-300 max-w-2xl mx-auto leading-relaxed">
-              원영적 사고 테스트로 당신의 긍정적인 사고 성향을 확인해보세요.
-              이 테스트는 일상 생활에서 발생하는 다양한 상황에 대한 반응을
-              통해 당신의 사고 방식을 평가합니다.
+              원영적 사고 테스트로 당신의 긍정적인 사고 성향을 확인해보세요. 이
+              테스트는 일상 생활에서 발생하는 다양한 상황에 대한 반응을 통해
+              당신의 사고 방식을 평가합니다.
             </p>
             <div className="pt-4">
               <Link href="/test/wonyoung-think/play">
@@ -238,4 +230,3 @@ export default async function WonyoungThinkPage() {
     </Layout>
   );
 }
-

@@ -100,6 +100,7 @@ export default function RootLayout({
     <html lang="ko">
       <head>
         <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+        {/* eslint-disable-next-line @next/next/no-page-custom-font */}
         <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap"

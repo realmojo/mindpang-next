@@ -6,7 +6,7 @@ import Link from "next/link";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { Brain, Loader2, CheckCircle2, ArrowRight } from "lucide-react";
+import { Loader2, CheckCircle2, ArrowRight } from "lucide-react";
 
 const questionAnswer = [
   { title: "매우 그렇다", value: 5 },
@@ -21,8 +21,7 @@ const questions = [
   { question: "다른 사람들이 나를 실망시키면 나는 금방 분노한다." },
   { question: "새로운 사람들과의 대면 상황에서 불안을 느낀다." },
   {
-    question:
-      "강한 감정이 나를 휘어잡을 때, 자주 과거에 대한 회상이 나타난다.",
+    question: "강한 감정이 나를 휘어잡을 때, 자주 과거에 대한 회상이 나타난다.",
   },
   { question: "다른 사람들의 의견에 크게 영향을 받는 편이다." },
   { question: "나는 자주 목표나 계획을 변경하는데 어려움을 겪는다." },
@@ -48,8 +47,7 @@ const questions = [
   { question: "나는 다른 사람들이 나에게 무관심하다고 느낄 때가 종종 있다." },
   { question: "나는 대부분의 사람들이 나에게 실망한다고 느낄 때가 있다." },
   {
-    question:
-      "강한 감정이 나를 휘어잡을 때, 제어를 잃는 것 같은 느낌이 든다.",
+    question: "강한 감정이 나를 휘어잡을 때, 제어를 잃는 것 같은 느낌이 든다.",
   },
   { question: "나는 자주 급한 감정의 변화를 경험한다." },
   { question: "나는 대부분의 사람들이 나를 이해하지 못한다고 느낄 때가 있다." },
@@ -62,8 +60,7 @@ const questions = [
   },
   { question: "나는 고립되었다고 느낄 때 나 자신을 자주 마음속에서 폐쇄한다." },
   {
-    question:
-      "다른 사람들의 기대에 부응하는 것이 나에게 부담스럽게 느껴진다.",
+    question: "다른 사람들의 기대에 부응하는 것이 나에게 부담스럽게 느껴진다.",
   },
   { question: "자주 다른 사람들에게 나에 대한 기대를 과도하게 높이는 편이다." },
   { question: "나는 다른 사람들과의 관계에서 나 자신을 희생하는 경향이 있다." },
@@ -175,7 +172,10 @@ export default function BorderlinePersonalityPlayPage() {
                 </h1>
                 <p className="text-gray-400">결과를 확인해보세요</p>
               </div>
-              <Link href="/test/borderline-personality/result" className="block">
+              <Link
+                href="/test/borderline-personality/result"
+                className="block"
+              >
                 <Button
                   size="lg"
                   className="w-full bg-luxury-gold hover:bg-luxury-gold/90 text-black font-semibold text-lg px-8 py-6 h-auto rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
@@ -239,14 +239,24 @@ export default function BorderlinePersonalityPlayPage() {
                             ? "bg-luxury-gold border-luxury-gold text-black shadow-lg shadow-luxury-gold/50 scale-[1.02] border-2"
                             : "border-luxury-gold/30 hover:bg-luxury-gold/10 hover:border-luxury-gold border"
                         }
-                        ${isProcessing && !isSelected ? "opacity-50 cursor-not-allowed" : ""}
+                        ${
+                          isProcessing && !isSelected
+                            ? "opacity-50 cursor-not-allowed"
+                            : ""
+                        }
                       `}
                       onClick={() => handleAnswerClick(option.value)}
                     >
                       {isSelected && (
                         <div className="absolute inset-0 bg-luxury-gold/20 animate-pulse"></div>
                       )}
-                      <span className={`relative z-10 flex items-center gap-2 ${isSelected ? "text-black font-semibold" : "text-gray-200"}`}>
+                      <span
+                        className={`relative z-10 flex items-center gap-2 ${
+                          isSelected
+                            ? "text-black font-semibold"
+                            : "text-gray-200"
+                        }`}
+                      >
                         {isSelected && (
                           <CheckCircle2 className="w-5 h-5 text-black flex-shrink-0" />
                         )}
@@ -263,4 +273,3 @@ export default function BorderlinePersonalityPlayPage() {
     </Layout>
   );
 }
-

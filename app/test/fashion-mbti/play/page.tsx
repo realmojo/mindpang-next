@@ -6,7 +6,7 @@ import Link from "next/link";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { Shirt, Loader2, CheckCircle2, ArrowRight } from "lucide-react";
+import { Loader2, CheckCircle2, ArrowRight } from "lucide-react";
 
 interface Question {
   question: string;
@@ -327,14 +327,24 @@ export default function FashionMBTIPlayPage() {
                             ? "bg-luxury-gold border-luxury-gold text-black shadow-lg shadow-luxury-gold/50 scale-[1.02] border-2"
                             : "border-luxury-gold/30 hover:bg-luxury-gold/10 hover:border-luxury-gold border"
                         }
-                        ${isProcessing && !isSelected ? "opacity-50 cursor-not-allowed" : ""}
+                        ${
+                          isProcessing && !isSelected
+                            ? "opacity-50 cursor-not-allowed"
+                            : ""
+                        }
                       `}
                       onClick={() => handleAnswerClick(option.score)}
                     >
                       {isSelected && (
                         <div className="absolute inset-0 bg-luxury-gold/20 animate-pulse"></div>
                       )}
-                      <span className={`relative z-10 flex items-center gap-2 ${isSelected ? "text-black font-semibold" : "text-gray-200"}`}>
+                      <span
+                        className={`relative z-10 flex items-center gap-2 ${
+                          isSelected
+                            ? "text-black font-semibold"
+                            : "text-gray-200"
+                        }`}
+                      >
                         {isSelected && (
                           <CheckCircle2 className="w-5 h-5 text-black flex-shrink-0" />
                         )}
@@ -351,4 +361,3 @@ export default function FashionMBTIPlayPage() {
     </Layout>
   );
 }
-

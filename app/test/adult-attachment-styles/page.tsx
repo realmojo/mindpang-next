@@ -2,9 +2,16 @@ import { Metadata } from "next";
 import Script from "next/script";
 import Layout from "@/components/Layout";
 import Link from "next/link";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Heart, FileText, Users, Shield, ArrowRight, Sparkles } from "lucide-react";
+import {
+  Heart,
+  FileText,
+  Users,
+  Shield,
+  ArrowRight,
+  Sparkles,
+} from "lucide-react";
 
 const metaUrl = "https://mindpang.com/test/adult-attachment-styles";
 const title =
@@ -206,4 +213,3 @@ export default async function AdultAttachmentStylesPage() {
     </Layout>
   );
 }
-

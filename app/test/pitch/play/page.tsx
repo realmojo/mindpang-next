@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import Layout from "@/components/Layout";
 import { useRouter } from "next/navigation";
 import { Progress } from "@/components/ui/progress";
@@ -10,15 +10,118 @@ import { CheckCircle2, XCircle } from "lucide-react";
 
 // 음표 순서 (88개)
 const noteOrder = [
-  "A0", "Bb0", "B0", "C1", "Db1", "D1", "Eb1", "E1", "F1", "Gb1", "G1", "Ab1",
-  "A1", "Bb1", "B1", "C2", "Db2", "D2", "Eb2", "E2", "F2", "Gb2", "G2", "Ab2",
-  "A2", "Bb2", "B2", "C3", "Db3", "D3", "Eb3", "E3", "F3", "Gb3", "G3", "Ab3",
-  "A3", "Bb3", "B3", "C4", "Db4", "D4", "Eb4", "E4", "F4", "Gb4", "G4", "Ab4",
-  "A4", "Bb4", "B4", "C5", "Db5", "D5", "Eb5", "E5", "F5", "Gb5", "G5", "Ab5",
-  "A5", "Bb5", "B5", "C6", "Db6", "D6", "Eb6", "E6", "F6", "Gb6", "G6", "Ab6",
-  "A6", "Bb6", "B6", "C7", "Db7", "D7", "Eb7", "E7", "F7", "Gb7", "G7", "Ab7",
-  "A7", "Bb7", "B7", "C8",
+  "A0",
+  "Bb0",
+  "B0",
+  "C1",
+  "Db1",
+  "D1",
+  "Eb1",
+  "E1",
+  "F1",
+  "Gb1",
+  "G1",
+  "Ab1",
+  "A1",
+  "Bb1",
+  "B1",
+  "C2",
+  "Db2",
+  "D2",
+  "Eb2",
+  "E2",
+  "F2",
+  "Gb2",
+  "G2",
+  "Ab2",
+  "A2",
+  "Bb2",
+  "B2",
+  "C3",
+  "Db3",
+  "D3",
+  "Eb3",
+  "E3",
+  "F3",
+  "Gb3",
+  "G3",
+  "Ab3",
+  "A3",
+  "Bb3",
+  "B3",
+  "C4",
+  "Db4",
+  "D4",
+  "Eb4",
+  "E4",
+  "F4",
+  "Gb4",
+  "G4",
+  "Ab4",
+  "A4",
+  "Bb4",
+  "B4",
+  "C5",
+  "Db5",
+  "D5",
+  "Eb5",
+  "E5",
+  "F5",
+  "Gb5",
+  "G5",
+  "Ab5",
+  "A5",
+  "Bb5",
+  "B5",
+  "C6",
+  "Db6",
+  "D6",
+  "Eb6",
+  "E6",
+  "F6",
+  "Gb6",
+  "G6",
+  "Ab6",
+  "A6",
+  "Bb6",
+  "B6",
+  "C7",
+  "Db7",
+  "D7",
+  "Eb7",
+  "E7",
+  "F7",
+  "Gb7",
+  "G7",
+  "Ab7",
+  "A7",
+  "Bb7",
+  "B7",
+  "C8",
 ];
+
+// 랜덤 음표 생성 함수 (컴포넌트 외부로 이동)
+const generateRandomNote = (currentQuestion: number): string => {
+  if (currentQuestion < 10) {
+    const octave4Notes = [
+      "C4",
+      "Db4",
+      "D4",
+      "Eb4",
+      "E4",
+      "F4",
+      "Gb4",
+      "G4",
+      "Ab4",
+      "A4",
+      "Bb4",
+      "B4",
+    ];
+    return octave4Notes[Math.floor(Math.random() * octave4Notes.length)];
+  } else {
+    return noteOrder[Math.floor(Math.random() * noteOrder.length)];
+  }
+};
 
 interface Answer {
   question: number;
@@ -33,7 +136,9 @@ export default function PitchPlayPage() {
   const [activeKey, setActiveKey] = useState<string | null>(null);
   const audioCacheRef = useRef<{ [key: string]: HTMLAudioElement }>({});
   const [hasUserInteracted, setHasUserInteracted] = useState(false);
-  const [initialRandomNote, setInitialRandomNote] = useState<string | null>(null);
+  const [initialRandomNote, setInitialRandomNote] = useState<string | null>(
+    null
+  );
   const [selectedNote, setSelectedNote] = useState<string | null>(null);
   const [showResult, setShowResult] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
@@ -45,7 +150,7 @@ export default function PitchPlayPage() {
   const pianoRef = useRef<HTMLDivElement>(null);
 
   // 현재 옥타브의 음표들 가져오기
-  const getCurrentNotes = () => {
+  const getCurrentNotes = useCallback(() => {
     const startIndex = noteOrder.findIndex((note) =>
       note.startsWith(`C${currentOctave}`)
     );
@@ -57,10 +162,10 @@ export default function PitchPlayPage() {
       return noteOrder.slice(startIndex);
     }
     return noteOrder.slice(startIndex, endIndex);
-  };
+  }, [currentOctave]);
 
   // 흰 건반과 검은 건반 분리
-  const getWhiteKeys = () => {
+  const getWhiteKeys = useCallback(() => {
     const notes = getCurrentNotes();
     const blackNotes = ["Bb", "Db", "Eb", "Gb", "Ab"];
     const whiteNotes = ["C", "D", "E", "F", "G", "A", "B"];
@@ -82,9 +187,9 @@ export default function PitchPlayPage() {
           label: baseNote,
         };
       });
-  };
+  }, [getCurrentNotes]);
 
-  const getBlackKeys = () => {
+  const _getBlackKeys = () => {
     const notes = getCurrentNotes();
     const whiteKeysList = getWhiteKeys();
     const blackNotes = ["Bb", "Db", "Eb", "Gb", "Ab"];
@@ -135,10 +240,10 @@ export default function PitchPlayPage() {
       });
   };
 
-  const whiteKeys = useMemo(() => getWhiteKeys(), [currentOctave]);
+  const whiteKeys = useMemo(() => getWhiteKeys(), [getWhiteKeys]);
   const blackKeys = useMemo(() => {
     const notes = getCurrentNotes();
-    const whiteKeysList = whiteKeys;
+    const whiteKeysList = getWhiteKeys();
     const blackNotes = ["Bb", "Db", "Eb", "Gb", "Ab"];
 
     const whiteKeyWidth = 100 / whiteKeysList.length;
@@ -185,7 +290,7 @@ export default function PitchPlayPage() {
           label: baseNote,
         };
       });
-  }, [currentOctave, whiteKeys]);
+  }, [getCurrentNotes, getWhiteKeys]);
 
   // 옥타브를 제거하고 음표 이름만 추출
   const getNoteName = (note: string) => {
@@ -206,28 +311,13 @@ export default function PitchPlayPage() {
 
     if (clickY - rect.top > pianoHeight * 0.6) return false;
 
-    const clickPercent = ((clickX - rect.left) / pianoWidth) * 100;
-
     return blackKeys.some((blackKey) => {
       const blackLeft = (blackKey.left / 100) * pianoWidth;
       const blackRight = blackLeft + (blackKey.width / 100) * pianoWidth;
-      return clickX - rect.left >= blackLeft && clickX - rect.left <= blackRight;
+      return (
+        clickX - rect.left >= blackLeft && clickX - rect.left <= blackRight
+      );
     });
-  };
-
-  // 랜덤 음표 생성
-  const generateRandomNote = () => {
-    if (currentQuestion < 10) {
-      const octave4Notes = [
-        "C4", "Db4", "D4", "Eb4", "E4", "F4", "Gb4", "G4", "Ab4", "A4", "Bb4",
-        "B4",
-      ];
-      return octave4Notes[
-        Math.floor(Math.random() * octave4Notes.length)
-      ];
-    } else {
-      return noteOrder[Math.floor(Math.random() * noteOrder.length)];
-    }
   };
 
   // 로컬스토리지에 결과 저장
@@ -251,9 +341,12 @@ export default function PitchPlayPage() {
       return;
     }
 
-    setCurrentQuestion((prev) => prev + 1);
-    const randomNote = generateRandomNote();
-    setInitialRandomNote(randomNote);
+    setCurrentQuestion((prev) => {
+      const nextQuestion = prev + 1;
+      const randomNote = generateRandomNote(nextQuestion);
+      setInitialRandomNote(randomNote);
+      return nextQuestion;
+    });
     setShowResult(false);
     setSelectedNote(null);
 
@@ -339,7 +432,7 @@ export default function PitchPlayPage() {
     setWrongCount(0);
     setAnswers([]);
 
-    const randomNote = generateRandomNote();
+    const randomNote = generateRandomNote(1);
     setInitialRandomNote(randomNote);
     setHasUserInteracted(true);
     setShowResult(false);
@@ -363,7 +456,9 @@ export default function PitchPlayPage() {
       }
     };
 
-    document.addEventListener("touchstart", handleTouchStart, { passive: false });
+    document.addEventListener("touchstart", handleTouchStart, {
+      passive: false,
+    });
 
     return () => {
       document.removeEventListener("touchstart", handleTouchStart);
@@ -392,10 +487,7 @@ export default function PitchPlayPage() {
                     {currentQuestion} / {totalQuestions}
                   </span>
                 </div>
-                <Progress
-                  value={percent}
-                  className="h-3 bg-luxury-gold/20"
-                />
+                <Progress value={percent} className="h-3 bg-luxury-gold/20" />
               </CardContent>
             </Card>
           )}
@@ -408,7 +500,9 @@ export default function PitchPlayPage() {
                 {blackKeys.map((key, index) => (
                   <div
                     key={`black-${index}`}
-                    className={`black-key ${activeKey === key.note ? "active" : ""}`}
+                    className={`black-key ${
+                      activeKey === key.note ? "active" : ""
+                    }`}
                     style={{
                       left: `${key.left}%`,
                       width: `${key.width}%`,
@@ -426,7 +520,9 @@ export default function PitchPlayPage() {
                 {whiteKeys.map((key, index) => (
                   <div
                     key={`white-${index}`}
-                    className={`white-key ${activeKey === key.note ? "active" : ""}`}
+                    className={`white-key ${
+                      activeKey === key.note ? "active" : ""
+                    }`}
                     onMouseDown={(e) => playNote(key.note, key.index, e)}
                     onTouchStart={(e) => playNote(key.note, key.index, e)}
                   >
@@ -624,4 +720,3 @@ export default function PitchPlayPage() {
     </Layout>
   );
 }
-

@@ -10,7 +10,7 @@ import {
   mediumColor,
   hardColor,
   crazyColor,
-} from "@/lib/stage";
+} from "@/app/assets/js/stage";
 
 interface Stage {
   name: string;
@@ -23,7 +23,7 @@ export default function ColorPlayPage() {
   const router = useRouter();
   const [boardWidth, setBoardWidth] = useState(448);
   const [tileHeight, setTileHeight] = useState(0);
-  const [level, setLevel] = useState(1);
+  const [_level, setLevel] = useState(1);
   const [stage, setStage] = useState<Stage>({
     level: 1,
     tileNumber: 2,
@@ -34,11 +34,11 @@ export default function ColorPlayPage() {
     normalColor: "#55efc4",
     answerColor: "#00b894",
   });
-  const [tileColorRandomNumber, setTileColorRandomNumber] = useState(
+  const [_tileColorRandomNumber, setTileColorRandomNumber] = useState(
     getRandomNumber(9)
   );
   const [timerTime, setTimerTime] = useState(15);
-  const [isStart, setIsStart] = useState(false);
+  const [_isStart, setIsStart] = useState(false);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const gutter = 8;
 
@@ -47,7 +47,7 @@ export default function ColorPlayPage() {
     return Math.max(1, tileNumber * tileNumber);
   };
 
-  const initHeight = (st: Stage) => {
+  const initHeight = (_st: Stage) => {
     if (typeof window === "undefined") return;
     // DOM이 업데이트된 후에 높이를 계산하기 위해 약간의 지연
     setTimeout(() => {
@@ -173,6 +173,7 @@ export default function ColorPlayPage() {
         intervalRef.current = null;
       }
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const tileCount = getTileCount();

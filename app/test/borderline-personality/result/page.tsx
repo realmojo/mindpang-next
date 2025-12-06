@@ -5,9 +5,6 @@ import Layout from "@/components/Layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Sparkles,
-  Share2,
-  RotateCcw,
-  Home,
   Loader2,
   AlertCircle,
   TrendingUp,
@@ -15,7 +12,6 @@ import {
   XCircle,
   AlertOctagon,
 } from "lucide-react";
-import Link from "next/link";
 import Fshare from "@/components/Fshare";
 
 interface ResultType {

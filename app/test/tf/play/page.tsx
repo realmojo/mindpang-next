@@ -3,13 +3,8 @@
 import { useState } from "react";
 import Layout from "@/components/Layout";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { Progress } from "@/components/ui/progress";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Loader2, CheckCircle2, ArrowRight } from "lucide-react";
 import { coupangPartnerStart } from "@/lib/utils/global";
@@ -492,10 +487,9 @@ const questions = [
 ];
 
 export default function TFPlayPage() {
-  const router = useRouter();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [percent, setPercent] = useState(0);
-  const [testAnswer, setTestAnswer] = useState({ T: 0, F: 0 });
+  const [_testAnswer, setTestAnswer] = useState({ T: 0, F: 0 });
   const [isLoading, setIsLoading] = useState(false);
   const [isResultButton, setIsResultButton] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
@@ -511,10 +505,7 @@ export default function TFPlayPage() {
           newAnswer[value as keyof typeof newAnswer] = 0;
         }
         newAnswer[value as keyof typeof newAnswer] += 1;
-        localStorage.setItem(
-          "mindpang-tf-score",
-          JSON.stringify(newAnswer)
-        );
+        localStorage.setItem("mindpang-tf-score", JSON.stringify(newAnswer));
         return newAnswer;
       });
 
@@ -643,7 +634,9 @@ export default function TFPlayPage() {
                   return (
                     <Button
                       key={optionIndex}
-                      onClick={() => handleAnswerClick(optionIndex, option.score)}
+                      onClick={() =>
+                        handleAnswerClick(optionIndex, option.score)
+                      }
                       className={`w-full text-left justify-start h-auto py-4 px-4 text-base md:text-lg transition-all duration-200 ${
                         isSelected
                           ? "bg-luxury-gold border-2 border-luxury-gold text-black shadow-lg shadow-luxury-gold/50 scale-95"
@@ -666,4 +659,3 @@ export default function TFPlayPage() {
     </Layout>
   );
 }
-

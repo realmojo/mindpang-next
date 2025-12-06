@@ -6,7 +6,7 @@ import Link from "next/link";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { Heart, Loader2, CheckCircle2, ArrowRight } from "lucide-react";
+import { Loader2, CheckCircle2, ArrowRight } from "lucide-react";
 
 interface Question {
   question: string;
@@ -46,7 +46,10 @@ const questions: Question[] = [
     radio: [
       { score: 0, title: "나는 전과 같이 일상생활에 만족하고 있다." },
       { score: 1, title: "나의 일상생활은 예전처럼 즐겁지 않다." },
-      { score: 2, title: "나는 요즘에는 어떤 것에서도 별로 만족을 얻지 못한다." },
+      {
+        score: 2,
+        title: "나는 요즘에는 어떤 것에서도 별로 만족을 얻지 못한다.",
+      },
       { score: 3, title: "나는 모든 것이 다 불만스럽고 싫증난다." },
     ],
   },
@@ -55,8 +58,15 @@ const questions: Question[] = [
     radio: [
       { score: 0, title: "나는 평소처럼 잠을 잘 수 있다." },
       { score: 1, title: "나는 전에 만큼 잠을 자지는 못한다." },
-      { score: 2, title: "나는 전보다 한 두 시간 일찍 깨고 다시 잠들기 어렵다." },
-      { score: 3, title: "나는 평소보다 몇 시간이나 일찍 깨고, 한번 깨면 다시 잠들 수 없다." },
+      {
+        score: 2,
+        title: "나는 전보다 한 두 시간 일찍 깨고 다시 잠들기 어렵다.",
+      },
+      {
+        score: 3,
+        title:
+          "나는 평소보다 몇 시간이나 일찍 깨고, 한번 깨면 다시 잠들 수 없다.",
+      },
     ],
   },
   {
@@ -81,7 +91,10 @@ const questions: Question[] = [
     question: "본인에 대해서 어떻게 생각하나요?",
     radio: [
       { score: 0, title: "내가 다른 사람보다 못한 것 같지는 않다." },
-      { score: 1, title: "나는 나의 약점이나 실수에 대해서 나 자신을 탓하는 편이다." },
+      {
+        score: 1,
+        title: "나는 나의 약점이나 실수에 대해서 나 자신을 탓하는 편이다.",
+      },
       { score: 2, title: "내가 한 일이 잘못되었을 때는 언제나 나를 탓한다." },
       { score: 3, title: "일어나는 모든 나쁜 일들은 다 내 탓이다." },
     ],
@@ -90,7 +103,10 @@ const questions: Question[] = [
     question: "자살에 대한 생각이 있으신가요?",
     radio: [
       { score: 0, title: "나는 자살 같은 것은 생각하지 않는다." },
-      { score: 1, title: "나는 자살할 생각을 가끔 하지만, 실제로 하지는 않을 것이다." },
+      {
+        score: 1,
+        title: "나는 자살할 생각을 가끔 하지만, 실제로 하지는 않을 것이다.",
+      },
       { score: 2, title: "자살하고 싶은 생각이 자주 든다." },
       { score: 3, title: "나는 기회만 있으면 자살하겠다." },
     ],
@@ -101,7 +117,11 @@ const questions: Question[] = [
       { score: 0, title: "나는 평소보다 더 울지는 않는다." },
       { score: 1, title: "나는 전보다 더 많이 운다." },
       { score: 2, title: "나는 요즈음 항상 운다." },
-      { score: 3, title: "나는 전에는 울고 싶을 때 울 수 있었지만, 요즈음은 울래야 울 기력조차 없다." },
+      {
+        score: 3,
+        title:
+          "나는 전에는 울고 싶을 때 울 수 있었지만, 요즈음은 울래야 울 기력조차 없다.",
+      },
     ],
   },
   {
@@ -110,7 +130,11 @@ const questions: Question[] = [
       { score: 0, title: "나는 요즈음 평소보다 더 짜증을 내는 편은 아니다." },
       { score: 1, title: "나는 전보다 더 쉽게 짜증이 나고 귀찮아 진다." },
       { score: 2, title: "나는 요즈음 항상 짜증을 내고 있다." },
-      { score: 3, title: "전에는 짜증스럽던 일에 요즘은 너무 지쳐서 짜증조차 나지 않는다." },
+      {
+        score: 3,
+        title:
+          "전에는 짜증스럽던 일에 요즘은 너무 지쳐서 짜증조차 나지 않는다.",
+      },
     ],
   },
   {
@@ -127,7 +151,10 @@ const questions: Question[] = [
     radio: [
       { score: 0, title: "나는 평소처럼 결정을 잘 내린다." },
       { score: 1, title: "나는 결정을 미루는 때가 전보다 더 많다." },
-      { score: 2, title: "나는 전에 비해 결정 내리는 데에 더 큰 어려움을 느낀다." },
+      {
+        score: 2,
+        title: "나는 전에 비해 결정 내리는 데에 더 큰 어려움을 느낀다.",
+      },
       { score: 3, title: "나는 더 이상 아무 결정도 내릴 수가 없다." },
     ],
   },
@@ -135,8 +162,14 @@ const questions: Question[] = [
     question: "거울을 보면 어떤 느낌이 드시나요?",
     radio: [
       { score: 0, title: "나는 전보다 내 모습이 나빠졌다고 느끼지 않는다." },
-      { score: 1, title: "나는 나이 들어 보이거나 매력 없이 보일까봐 걱정한다." },
-      { score: 2, title: "나는 내 모습이 매력 없게 변해 버린 것 같은 느낌이 든다." },
+      {
+        score: 1,
+        title: "나는 나이 들어 보이거나 매력 없이 보일까봐 걱정한다.",
+      },
+      {
+        score: 2,
+        title: "나는 내 모습이 매력 없게 변해 버린 것 같은 느낌이 든다.",
+      },
       { score: 3, title: "나는 내가 추하게 보인다고 믿는다." },
     ],
   },
@@ -145,7 +178,10 @@ const questions: Question[] = [
     radio: [
       { score: 0, title: "나는 전처럼 일을 할 수 있다." },
       { score: 1, title: "어떤 일을 시작하는데 전보다 더 많은 노력이 든다." },
-      { score: 2, title: "무슨 일이든 하려면 나 자신을 매우 심하게 채찍질해야만 한다." },
+      {
+        score: 2,
+        title: "무슨 일이든 하려면 나 자신을 매우 심하게 채찍질해야만 한다.",
+      },
       { score: 3, title: "나는 전혀 아무 일도 할 수가 없다." },
     ],
   },
@@ -163,7 +199,10 @@ const questions: Question[] = [
     radio: [
       { score: 0, title: "나는 실패자라고 느끼지 않는다." },
       { score: 1, title: "나는 보통 사람들보다 더 많이 실패한 것 같다." },
-      { score: 2, title: "내가 살아온 과거를 뒤돌아보면, 실패투성이인 것 같다." },
+      {
+        score: 2,
+        title: "내가 살아온 과거를 뒤돌아보면, 실패투성이인 것 같다.",
+      },
       { score: 3, title: "나는 인간으로서 완전한 실패자라고 느낀다." },
     ],
   },
@@ -172,8 +211,14 @@ const questions: Question[] = [
     radio: [
       { score: 0, title: "나는 미래에 대해서 별로 낙심하지 않는다." },
       { score: 1, title: "나는 미래에 대해서 용기가 나지 않는다." },
-      { score: 2, title: "나는 미래에 대해 기대할 것이 아무 것도 없다고 느낀다." },
-      { score: 3, title: "나는 미래는 아주 절망적이고 나아질 가망이 없다고 느낀다." },
+      {
+        score: 2,
+        title: "나는 미래에 대해 기대할 것이 아무 것도 없다고 느낀다.",
+      },
+      {
+        score: 3,
+        title: "나는 미래는 아주 절망적이고 나아질 가망이 없다고 느낀다.",
+      },
     ],
   },
   {
@@ -189,15 +234,26 @@ const questions: Question[] = [
     question: "건강에 대한 변화가 있나요?",
     radio: [
       { score: 0, title: "나는 건강에 대해 전보다 더 염려하고 있지는 않다." },
-      { score: 1, title: "나는 여러 가지 통증, 소화불량, 변비 등과 같은 신체적인 문제로 걱정하고 있다." },
+      {
+        score: 1,
+        title:
+          "나는 여러 가지 통증, 소화불량, 변비 등과 같은 신체적인 문제로 걱정하고 있다.",
+      },
       { score: 2, title: "나는 건강이 염려되어 다른 일은 생각하기 힘들다." },
-      { score: 3, title: "나는 건강이 너무 염려되어 다른 일은 아무 것도 생각할 수 없다." },
+      {
+        score: 3,
+        title: "나는 건강이 너무 염려되어 다른 일은 아무 것도 생각할 수 없다.",
+      },
     ],
   },
   {
     question: "섹스를 하고싶은 생각이 드시나요?",
     radio: [
-      { score: 0, title: "나는 요즈음 성에 대한 관심에 별다른 변화가 있는 것 같지는 않다." },
+      {
+        score: 0,
+        title:
+          "나는 요즈음 성에 대한 관심에 별다른 변화가 있는 것 같지는 않다.",
+      },
       { score: 1, title: "나는 전보다 성에 대한 관심이 줄었다." },
       { score: 2, title: "나는 전보다 성에 대한 관심이 상당히 줄었다." },
       { score: 3, title: "나는 성에 대한 관심을 완전히 잃었다." },
@@ -367,14 +423,24 @@ export default function DepressionPlayPage() {
                             ? "bg-luxury-gold border-luxury-gold text-black shadow-lg shadow-luxury-gold/50 scale-[1.02] border-2"
                             : "border-luxury-gold/30 hover:bg-luxury-gold/10 hover:border-luxury-gold border"
                         }
-                        ${isProcessing && !isSelected ? "opacity-50 cursor-not-allowed" : ""}
+                        ${
+                          isProcessing && !isSelected
+                            ? "opacity-50 cursor-not-allowed"
+                            : ""
+                        }
                       `}
                       onClick={() => handleAnswerClick(option.score)}
                     >
                       {isSelected && (
                         <div className="absolute inset-0 bg-luxury-gold/20 animate-pulse"></div>
                       )}
-                      <span className={`relative z-10 flex items-center gap-2 ${isSelected ? "text-black font-semibold" : "text-gray-200"}`}>
+                      <span
+                        className={`relative z-10 flex items-center gap-2 ${
+                          isSelected
+                            ? "text-black font-semibold"
+                            : "text-gray-200"
+                        }`}
+                      >
                         {isSelected && (
                           <CheckCircle2 className="w-5 h-5 text-black flex-shrink-0" />
                         )}
@@ -391,4 +457,3 @@ export default function DepressionPlayPage() {
     </Layout>
   );
 }
-

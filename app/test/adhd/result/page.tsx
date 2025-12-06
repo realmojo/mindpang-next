@@ -1,21 +1,16 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Layout from "@/components/Layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import {
   Brain,
   CheckCircle2,
   AlertTriangle,
   TrendingUp,
-  Share2,
-  RotateCcw,
-  Home,
   Sparkles,
   Loader2,
 } from "lucide-react";
-import Link from "next/link";
 import Fshare from "@/components/Fshare";
 interface ResultType {
   name: string;
@@ -31,7 +26,7 @@ export default function ADHDResultPage() {
   const [result, setResult] = useState<ResultType | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
+  const calculateResult = useCallback(() => {
     if (typeof window === "undefined") return;
 
     let sum = 0;
@@ -123,6 +118,10 @@ export default function ADHDResultPage() {
     setResult(resultData);
     setIsLoading(false);
   }, []);
+
+  useEffect(() => {
+    calculateResult();
+  }, [calculateResult]);
 
   if (isLoading || !result) {
     return (

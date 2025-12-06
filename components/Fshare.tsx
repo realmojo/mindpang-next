@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
@@ -43,7 +43,7 @@ declare global {
 
 export default function Fshare({ title, url, imageUrl }: FshareProps) {
   const kakaoButtonRef = useRef<HTMLDivElement>(null);
-  const [kakaoButtonCreated, setKakaoButtonCreated] = useState(false);
+  const [_kakaoButtonCreated, setKakaoButtonCreated] = useState(false);
 
   const shareFacebook = () => {
     window.open(
@@ -73,7 +73,7 @@ export default function Fshare({ title, url, imageUrl }: FshareProps) {
     }
   };
 
-  const createKakaoButton = () => {
+  const createKakaoButton = useCallback(() => {
     if (typeof window === "undefined") return;
 
     // kakao sdk script이 정상적으로 불러와졌으면 window.Kakao로 접근이 가능합니다
@@ -118,11 +118,14 @@ export default function Fshare({ title, url, imageUrl }: FshareProps) {
         // 실패해도 SVG는 보여주기
       }
     }
-  };
+  }, [title, url, imageUrl]);
 
   useEffect(() => {
-    // 초기 상태 리셋
-    setKakaoButtonCreated(false);
+    // 초기 상태 리셋을 위한 함수
+    const resetState = () => {
+      setKakaoButtonCreated(false);
+    };
+    resetState();
 
     // Kakao SDK가 로드될 때까지 대기
     const checkKakaoSDK = () => {
@@ -138,21 +141,23 @@ export default function Fshare({ title, url, imageUrl }: FshareProps) {
     const timeoutId = setTimeout(checkKakaoSDK, 100);
 
     // Cleanup function
+    const kakaoButtonRefCurrent = kakaoButtonRef.current;
     return () => {
       clearTimeout(timeoutId);
       // 컴포넌트 언마운트 시 카카오 버튼 정리
-      if (kakaoButtonRef.current) {
-        const container = kakaoButtonRef.current;
+      if (kakaoButtonRefCurrent) {
+        const container = kakaoButtonRefCurrent;
         while (container.firstChild) {
           try {
             container.removeChild(container.firstChild);
           } catch (e) {
+            console.error("Kakao button removal failed:", e);
             break;
           }
         }
       }
     };
-  }, [title, url, imageUrl]);
+  }, [createKakaoButton]);
 
   return (
     <div className="flex flex-col items-center space-y-8 py-8">

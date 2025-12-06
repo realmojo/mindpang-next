@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Layout from "@/components/Layout";
 import Fshare from "@/components/Fshare";
@@ -9,14 +9,25 @@ import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Sparkles, Loader2, RotateCcw, Home } from "lucide-react";
-import Image from "next/image";
+
+interface TestContent {
+  title?: {
+    text?: string;
+    url?: string;
+  };
+  questions?: Array<{
+    text: string;
+    score?: number | string;
+  }>;
+  answer?: number;
+}
 
 interface TestItem {
   title: string;
   category: string;
   link: string;
   type: string;
-  contents: any[];
+  contents: TestContent[];
   logo: string;
   adsenses?: {
     result?: string;
@@ -41,51 +52,44 @@ export default function ResultPage() {
   const [totalCount, setTotalCount] = useState(0);
   const [contentTotalCount, setContentTotalCount] = useState(0);
   const [textSplit, setTextSplit] = useState<string[]>([]);
-  const [recentlyItems, setRecentlyItems] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    // Load item from localStorage
-    if (typeof window !== "undefined") {
-      const storedItem = localStorage.getItem("mindpang-test-item");
-      const storedResult = localStorage.getItem("mindpang-test-result");
+  const loadResultData = useCallback(() => {
+    if (typeof window === "undefined") return;
 
-      if (!storedItem || !storedResult) {
-        alert("올바르지 않은 경로입니다.");
-        router.push("/");
-        return;
-      }
+    const storedItem = localStorage.getItem("mindpang-test-item");
+    const storedResult = localStorage.getItem("mindpang-test-result");
 
-      const itemData = JSON.parse(storedItem);
-      const resultData = JSON.parse(storedResult);
+    if (!storedItem || !storedResult) {
+      alert("올바르지 않은 경로입니다.");
+      router.push("/");
+      return;
+    }
 
-      setItem(itemData);
-      setResultItem(resultData);
+    const itemData: TestItem = JSON.parse(storedItem);
+    const resultData: ResultItem = JSON.parse(storedResult);
 
-      const d = resultData.text.split("<br />");
-      setTextSplit(d.filter((line: string) => line));
+    setItem(itemData);
+    setResultItem(resultData);
 
-      if (itemData.type !== "random" && itemData.type !== "count") {
-        const _totalCount = resultData.totalCount ? resultData.totalCount : 0;
-        const _contentTotalCount = itemData.contents.length;
-        setTotalCount(Number(_totalCount));
-        setContentTotalCount(_contentTotalCount);
-        const score = Math.ceil((_totalCount * 100) / _contentTotalCount);
-        setTotal(score);
-      }
+    const d = resultData.text.split("<br />");
+    setTextSplit(d.filter((line: string) => line));
+
+    if (itemData.type !== "random" && itemData.type !== "count") {
+      const _totalCount = resultData.totalCount ? resultData.totalCount : 0;
+      const _contentTotalCount = itemData.contents.length;
+      setTotalCount(Number(_totalCount));
+      setContentTotalCount(_contentTotalCount);
+      const score = Math.ceil((_totalCount * 100) / _contentTotalCount);
+      setTotal(score);
     }
 
     setIsLoading(false);
-
-    // Load recently items
-    const fetchRecently = async () => {
-      const url = `https://api.mindpang.com/api/mind/recently.php`;
-      const response = await fetch(url);
-      const data = await response.json();
-      setRecentlyItems(data);
-    };
-    fetchRecently();
   }, [router]);
+
+  useEffect(() => {
+    loadResultData();
+  }, [loadResultData]);
 
   if (isLoading || !item || !resultItem) {
     return (
@@ -118,11 +122,9 @@ export default function ResultPage() {
           {resultItem.url && (
             <Card className="mb-6 bg-[#1E1E1E]/90 border-white/10">
               <CardContent className="p-0">
-                <Image
+                <img
                   src={resultItem.url}
                   alt={item.title || "결과 이미지"}
-                  width={800}
-                  height={400}
                   className="w-full h-auto rounded-lg"
                   loading="lazy"
                 />

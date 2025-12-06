@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Layout from "@/components/Layout";
 import Fshare from "@/components/Fshare";
 import Script from "next/script";
@@ -14,7 +14,7 @@ export default function SpeedCompletePage() {
   const [speed, setSpeed] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
+  const loadResult = useCallback(() => {
     if (typeof window === "undefined") return;
 
     const resultStr = localStorage.getItem("mindpang-speed-score");
@@ -38,6 +38,10 @@ export default function SpeedCompletePage() {
     setIsCalc(true);
     setIsLoading(false);
   }, []);
+
+  useEffect(() => {
+    loadResult();
+  }, [loadResult]);
 
   if (isLoading) {
     return (

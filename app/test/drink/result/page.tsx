@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useSearchParams } from "next/navigation";
 import Layout from "@/components/Layout";
 import Fshare from "@/components/Fshare";
@@ -38,7 +38,7 @@ export default function DrinkResultPage() {
   const [isLoading, setIsLoading] = useState(true);
   const results: Results = drinkResult;
 
-  useEffect(() => {
+  const loadResult = useCallback(() => {
     if (typeof window === "undefined") return;
 
     const urlParams = new URLSearchParams(window.location.search);
@@ -60,7 +60,11 @@ export default function DrinkResultPage() {
       setType("UNKNOWN");
     }
     setIsLoading(false);
-  }, [searchParams]);
+  }, [results]);
+
+  useEffect(() => {
+    loadResult();
+  }, [loadResult, searchParams]);
 
   if (isLoading) {
     return (

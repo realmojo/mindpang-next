@@ -6,7 +6,7 @@ import Link from "next/link";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { Scale, Loader2, CheckCircle2, ArrowRight } from "lucide-react";
+import { Loader2, CheckCircle2, ArrowRight } from "lucide-react";
 
 const questions = [
   // 세트 1
@@ -84,7 +84,6 @@ export default function BDSMPlayPage() {
 
   const getButtonStyle = (n: number) => {
     // 중앙 정렬을 위한 계산: 가장 큰 버튼(56px) 기준으로 중앙 맞추기
-    const maxSize = 56;
     let size = 56;
     let marginTop = 0;
 

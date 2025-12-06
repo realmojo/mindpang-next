@@ -3,19 +3,14 @@
 import { useState, useEffect } from "react";
 import Layout from "@/components/Layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import {
   Sparkles,
-  Share2,
-  RotateCcw,
-  Home,
   Loader2,
   Crown,
   Heart,
   ArrowLeftRight,
   Circle,
 } from "lucide-react";
-import Link from "next/link";
 import Fshare from "@/components/Fshare";
 
 interface ResultType {

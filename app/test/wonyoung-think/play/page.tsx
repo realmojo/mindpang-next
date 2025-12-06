@@ -3,13 +3,8 @@
 import { useState } from "react";
 import Layout from "@/components/Layout";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { Progress } from "@/components/ui/progress";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Loader2, CheckCircle2, ArrowRight } from "lucide-react";
 
@@ -20,7 +15,10 @@ const questions = [
       { score: 2, title: "왜 하필 이 시간에 피아노를 치는 거야? 😠" },
       { score: 4, title: "아침부터 내 미라클 모닝을 시작하게 해주네 🌅" },
       { score: 1, title: "피곤해서 다시 잠들 수 있을까 🥱" },
-      { score: 3, title: "이렇게 일찍 일어나다니 오늘은 부지런히 살 수 있겠어 🌞" },
+      {
+        score: 3,
+        title: "이렇게 일찍 일어나다니 오늘은 부지런히 살 수 있겠어 🌞",
+      },
     ],
   },
   {
@@ -128,7 +126,10 @@ const questions = [
       { score: 1, title: "너무 변해서 이제는 잘 모르겠어 🤷" },
       { score: 2, title: "예전의 모습이 그리워, 지금은 낯설어 😢" },
       { score: 4, title: "친구의 새로운 모습도 흥미로워 😊" },
-      { score: 3, title: "변한 모습 덕분에 더 다양한 대화를 할 수 있을 거야 🗣️" },
+      {
+        score: 3,
+        title: "변한 모습 덕분에 더 다양한 대화를 할 수 있을 거야 🗣️",
+      },
     ],
   },
   {
@@ -270,7 +271,10 @@ const questions = [
     question: "새로운 업무를 맡게 되었을 때",
     radio: [
       { score: 2, title: "새로운 업무가 너무 부담스러워 😓" },
-      { score: 1, title: "기존 업무도 많은데 새로운 업무까지 맡아야 하다니 😫" },
+      {
+        score: 1,
+        title: "기존 업무도 많은데 새로운 업무까지 맡아야 하다니 😫",
+      },
       { score: 3, title: "내 역량을 발휘할 수 있는 좋은 기회야 💼" },
       { score: 4, title: "새로운 도전을 할 기회야 🌟" },
     ],
@@ -287,10 +291,9 @@ const questions = [
 ];
 
 export default function WonyoungThinkPlayPage() {
-  const router = useRouter();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [percent, setPercent] = useState(0);
-  const [testAnswer, setTestAnswer] = useState<number[]>([]);
+  const [_testAnswer, setTestAnswer] = useState<number[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isResultButton, setIsResultButton] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
@@ -434,7 +437,9 @@ export default function WonyoungThinkPlayPage() {
                   return (
                     <Button
                       key={optionIndex}
-                      onClick={() => handleAnswerClick(optionIndex, option.score)}
+                      onClick={() =>
+                        handleAnswerClick(optionIndex, option.score)
+                      }
                       className={`w-full text-left justify-start h-auto py-4 px-4 text-base md:text-lg transition-all duration-200 ${
                         isSelected
                           ? "bg-luxury-gold border-2 border-luxury-gold text-black shadow-lg shadow-luxury-gold/50 scale-95"
@@ -457,4 +462,3 @@ export default function WonyoungThinkPlayPage() {
     </Layout>
   );
 }
-
