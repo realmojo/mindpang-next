@@ -4,7 +4,6 @@ import { useState, useEffect, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Layout from "@/components/Layout";
 import Fshare from "@/components/Fshare";
-import Script from "next/script";
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -106,12 +105,6 @@ export default function ResultPage() {
 
   return (
     <Layout>
-      <Script
-        async
-        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9130836798889522"
-        crossOrigin="anonymous"
-        strategy="afterInteractive"
-      />
       <main className="test-layout flex justify-center flex-col">
         <div className="w-full max-w-2xl mx-auto p-4 pt-4">
           <h1 className="text-center text-3xl mb-6 font-bold text-gray-100">

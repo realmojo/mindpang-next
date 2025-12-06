@@ -145,12 +145,6 @@ export default async function DrinkPage() {
 
         {/* AdSense */}
         <div className="my-6">
-          <Script
-            async
-            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9130836798889522"
-            crossOrigin="anonymous"
-            strategy="afterInteractive"
-          />
           <ins
             className="adsbygoogle"
             style={{ display: "block" }}
