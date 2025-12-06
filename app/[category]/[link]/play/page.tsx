@@ -15,7 +15,9 @@ interface Content {
   };
   questions: Array<{
     text: string;
+    score?: number | string;
   }>;
+  answer?: number;
 }
 
 interface TestItem {
@@ -81,20 +83,32 @@ export default function PlayPage() {
   };
 
   const calculateResult = (item: TestItem, answers: number[]) => {
+    if (!item.results || item.results.length === 0) {
+      return;
+    }
+
     let totalCount = 0;
 
     if (item.contents.length > 0) {
       for (const i in item.contents) {
+        const content = item.contents[i];
+        const answerIndex = parseInt(i);
+
         if (item.type === "answer") {
-          if (item.contents[i].answer === answers[i]) {
+          if (
+            content.answer !== undefined &&
+            content.answer === answers[answerIndex]
+          ) {
             totalCount++;
           }
         } else if (item.type === "score") {
-          if (
-            item.contents[i].questions[answers[i]] &&
-            item.contents[i].questions[answers[i]].score
-          ) {
-            totalCount += item.contents[i].questions[answers[i]].score;
+          const question = content.questions[answers[answerIndex]];
+          if (question && question.score !== undefined) {
+            const score =
+              typeof question.score === "string"
+                ? parseInt(question.score)
+                : question.score;
+            totalCount += score || 0;
           }
         }
       }
@@ -103,25 +117,32 @@ export default function PlayPage() {
       if (item.type === "count") {
         const answerCount = [0, 0, 0, 0, 0, 0];
         for (const number of answers) {
-          answerCount[number] += 1;
+          if (number >= 0 && number < answerCount.length) {
+            answerCount[number] += 1;
+          }
         }
         countIndex = findIndexOfMax(answerCount);
       }
 
       let results = null;
       if (item.type === "random") {
-        const ran = getRandomNumber(0, item.results.length - 1);
-        results = { ...item.results[ran], totalCount };
+        if (item.results && item.results.length > 0) {
+          const ran = getRandomNumber(0, item.results.length - 1);
+          results = { ...item.results[ran], totalCount };
+        }
       } else if (item.type === "count") {
-        results = { ...item.results[countIndex], totalCount };
+        if (item.results && item.results[countIndex]) {
+          results = { ...item.results[countIndex], totalCount };
+        }
       } else {
-        for (const i in item.results) {
-          if (
-            item.results[i].min <= totalCount &&
-            totalCount <= item.results[i].max
-          ) {
-            results = item.results[i];
-            break;
+        if (item.results) {
+          for (const result of item.results) {
+            const min = result.min ?? -Infinity;
+            const max = result.max ?? Infinity;
+            if (min <= totalCount && totalCount <= max) {
+              results = result;
+              break;
+            }
           }
         }
       }
